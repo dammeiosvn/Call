@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <!-- Tối ưu hiển thị và vô hiệu hóa zoom để có trải nghiệm như App native -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Cấu hình iOS Webclip PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Điện thoại">
+    <!-- Sếp nhớ cập nhật đường dẫn icon thực tế ở đây -->
+    <link rel="apple-touch-icon" href="./icon.png">
+    
+    <title>Webclip Điện Thoại</title>
+    
+    <style>
+        /* CSS phong cách tối giản, bo tròn chuẩn Apple HIG */
+        :root {
+            --bg-color: #f2f2f7;
+            --btn-bg: #ffffff;
+            --btn-text: #007aff;
+            --btn-active: #e5e5ea;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #000000;
+                --btn-bg: #1c1c1e;
+                --btn-text: #0a84ff;
+                --btn-active: #2c2c2e;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--btn-text);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .action-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            font-size: 17px;
+            font-weight: 600;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 14px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .action-btn:active {
+            background-color: var(--btn-active);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">Danh Mục Điện Thoại</div>
+        <div id="button-list"></div>
+    </div>
+
+    <script>
+        // Data JSON cấu hình của sếp
+        const phoneData = {
+            "Điện thoại": {
+                "Mở": "mobilephone://",
+                "Gọi": "tel://{số}",
+                "Hỏi trước khi gọi": "telprompt://{số}",
+                "Yêu thích": "mobilephone-favorites://",
+                "Gần đây": "mobilephone-recents://",
+                "Danh bạ": "mobilephone-contacts://",
+                "Thư thoại": "vmshow://"
+            }
+        };
+
+        const buttonList = document.getElementById('button-list');
+        const actions = phoneData["Điện thoại"];
+
+        // Render UI tự động từ JSON
+        for (const [label, scheme] of Object.entries(actions)) {
+            const btn = document.createElement('button');
+            btn.className = 'action-btn';
+            btn.textContent = label;
+            
+            btn.addEventListener('click', () => {
+                let finalUrl = scheme;
+                
+                // Logic xử lý nội suy nếu scheme yêu cầu nhập số điện thoại
+                if (scheme.includes('{số}')) {
+                    const phoneNumber = prompt(`Nhập số điện thoại để thực hiện "${label}":`);
+                    // Xóa khoảng trắng để tránh lỗi cú pháp URL scheme trên iOS
+                    if (phoneNumber && phoneNumber.trim() !== '') {
+                        const cleanNumber = phoneNumber.replace(/\s+/g, '');
+                        finalUrl = scheme.replace('{số}', cleanNumber);
+                    } else {
+                        // Hủy lệnh nếu người dùng không nhập số
+                        return; 
+                    }
+                }
+                
+                // Mở URL Scheme
+                window.location.href = finalUrl;
+            });
+            
+            buttonList.appendChild(btn);
+        }
+    </script>
+</body>
+</html>
