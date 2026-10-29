@@ -1,7 +1,31 @@
 {
-  "signed": false,
-  "status": "awaiting-native-macos-attempt",
+  "provider": "Shortcuty public signing API",
+  "endpoint": "https://sign.shortcuty.app/api/v1/sign?response=json",
+  "mode": "anyone",
+  "signed": true,
   "iPhoneImportVerified": false,
-  "directService": "HTTP 403 request blocked",
-  "mode": "anyone"
+  "files": [
+    {
+      "name": "Quick Call Image",
+      "signed": true,
+      "format": "AEA1",
+      "mode": "anyone",
+      "inputFile": "Quick-Call-Image.unsigned.bplist",
+      "inputSHA256": "89d16dac941583dfdeb103a9f7b7f3150e43d1ad63b5e62f6728be65921c7632",
+      "sha256": "4426f4923acfc771cee83500435c2776bf3de7f2de646f992176e4a803e5c0b7",
+      "size": 111444,
+      "path": "Quick Call Image.shortcut"
+    },
+    {
+      "name": "Quick Call Image Test",
+      "signed": true,
+      "format": "AEA1",
+      "mode": "anyone",
+      "inputFile": "Quick-Call-Image-Test.unsigned.bplist",
+      "inputSHA256": "b22fb76aed6a04571efe502372939607f5c4b85ff7985cdec6400bca60c7ad2f",
+      "sha256": "7f95c223aaeca3a0b70a39108b4d412d18309b0a2d406d5f3df50415415b0a67",
+      "size": 110325,
+      "path": "Quick Call Image Test.shortcut"
+    }
+  ]
 }

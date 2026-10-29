@@ -69,6 +69,11 @@ python quick-call-image/tests/test_workflow.py
 Sau khi các kiểm thử đạt, ký lại cả hai tệp trên Mac có quyền ký. Chạy bản Test
 trên iPhone và đối chiếu từng chữ số với ảnh gốc trước khi thử bản chính.
 
+Có thể dùng `python quick-call-image/src/sign_remote.py` để ký qua API Shortcuty
+công khai. Chỉ chạy với nguồn bạn có chủ đích chia sẻ; mã nguồn được gửi tới dịch vụ.
+Không gửi ảnh khách hàng hoặc tệp cấu hình thiết bị vào bước ký. Runtime iOS không
+cần dịch vụ ký hoặc Internet để thực hiện các phép xử lý số.
+
 ## Đổi cấu hình trên thiết bị
 
 Sửa tuỳ chọn qua menu là cách thông thường. Nếu thay `catalog.json` thủ công,

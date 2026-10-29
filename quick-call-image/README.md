@@ -9,6 +9,14 @@ Chỉ tệp đã ký `Quick Call Image.shortcut` và `Quick Call Image Test.shor
 mới là bản cài. Các tệp `.unsigned.bplist` là đầu vào kỹ thuật, không phải bản cài iOS.
 Xem [báo cáo kỹ thuật](docs/TECHNICAL-REPORT.md) và `qa/signing.json` để biết trạng thái chữ ký.
 
+**Hai tệp đã ký để thử trên iPhone:**
+
+- [Quick Call Image Test.shortcut](dist/Quick%20Call%20Image%20Test.shortcut) — chỉ hiện số đích, không gọi.
+- [Quick Call Image.shortcut](dist/Quick%20Call%20Image.shortcut) — bản chính có tác vụ gọi.
+
+Đã kiểm tra AEA1, mode anyone và hash tệp với phản hồi của dịch vụ ký; chưa thử
+nhập tệp trên iPhone. Bạn nên bắt đầu bằng bản Test.
+
 - [Hướng dẫn sử dụng](docs/USER-GUIDE.md)
 - [Báo cáo mã nguồn và kiểm thử](docs/TECHNICAL-REPORT.md)
 - [Hướng dẫn sửa dữ liệu](docs/DATA-GUIDE.md)
@@ -55,6 +63,15 @@ python quick-call-image/src/sign_macos.py
 
 Việc ký dùng `shortcuts sign --mode anyone`, theo tài liệu Apple. Chữ ký không
 chứng minh OCR hoặc các tác vụ đã chạy đúng trên iPhone; vẫn cần bước thử thiết bị.
+
+Nếu không có Mac đang đăng nhập iCloud, có thể dùng đường ký công khai ở bước phát triển:
+
+```bash
+python quick-call-image/src/sign_remote.py
+```
+
+Lệnh này gửi mã nguồn phím tắt công khai tới Shortcuty, kiểm tra hash rồi lưu tệp.
+Đây chỉ là bước tạo bản phân phối; phím tắt iOS không liên hệ dịch vụ này khi chạy.
 
 ## Phạm vi xác minh
 

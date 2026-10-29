@@ -20,6 +20,7 @@ dữ liệu 20 vùng/13 ngôn ngữ, quy tắc chuẩn hoá, menu lấy từ d�
 | `src/workflow.py` | Xuất UUID xác định, token UTF-16, tham chiếu biến, điều kiện và vòng lặp native. |
 | `src/build.py` | Thiết lập, đọc/ghi JSON, OCR, chuẩn hoá, loại trùng, chọn số và nhánh gọi. |
 | `src/sign_macos.py` | Ký bằng CLI Apple ở chế độ anyone, có timeout và kiểm tra đầu tệp AEA1. |
+| `src/sign_remote.py` | Ký bản nguồn công khai qua API Shortcuty; kiểm tra hash đầu vào/đầu ra, kích thước, AEA1 và mode anyone. Không nằm trong runtime iOS. |
 | `tests/interpreter.py` | Thực thi graph plist đã xuất với I/O giả, phát hiện biến/tham chiếu không được gán. |
 | `tests/icu.py` | Chạy regex theo ICU C API của host; không thay thế kiểm thử ICU trên iOS. |
 | `tests/test_workflow.py` | Kiểm thử số, điều khiển, tệp, cấu hình, bản dịch và đối chiếu độc lập. |
@@ -50,7 +51,7 @@ Phần nhập số hỗ trợ tập quy tắc được nêu ở đây, không ph
 
 ## Bằng chứng kiểm thử host
 
-- **17 phương thức kiểm thử đạt**, không lỗi/không bỏ qua trong lần chạy có oracle.
+- **18 phương thức kiểm thử đạt**, không lỗi/không bỏ qua trong lần chạy có oracle.
 - **189 kịch bản số điện thoại đạt**, lưu chi tiết input/expected/actual tại `qa/test-results.json`.
 - **1.620 phép so sánh** mẫu số với `phonenumbers==9.0.42` đạt, gồm mẫu nguồn và số giả sinh xác định.
 - Đối chiếu chỉ tính số canonical: parser Google có thể tự bỏ tiền tố sau `+CC`,
@@ -71,9 +72,22 @@ Ký tệp khác với xác minh tác vụ. `shortcuts sign` có thể ký một 
 chứng minh mọi thông số chạy đúng trên iOS. Quy trình ký dùng mode `anyone`,
 kiểm tra AEA1 và hash; không tạo hoặc giả mạo liên kết chia sẻ iCloud.
 
-Kênh ký trực tiếp từ môi trường phát triển hiện bị chặn HTTP 403. Workflow GitHub
-Actions có bước thử ký bằng macOS và lưu kết quả; runner có thể không có phiên
-iCloud đủ quyền. Nếu `qa/signing.json` ghi `signed: false`, **chưa có bản cài**.
+**Hai tệp phân phối đã được ký**, có đầu tệp AEA1, mode `anyone`, hash đầu vào,
+hash đầu ra và kích thước khớp với phản hồi API. Kết quả nằm trong `qa/signing.json`.
+Tệp đầu vào bplist đã được so sánh với graph XML trước khi gửi ký.
+
+Máy macOS của GitHub Actions không đăng nhập iCloud nên cách ký CLI Apple đã
+thất bại; bằng chứng lưu riêng trong `qa/signing-macos.json`. Sau đó sử dụng API
+công khai không yêu cầu khoá của Shortcuty theo tài liệu nhà cung cấp. Chỉ mã
+nguồn công khai của phím tắt được gửi đi, không có ảnh, số điện thoại đọc từ ảnh
+hay cấu hình người dùng. CI có bước dự phòng này nếu máy ký thiếu phiên iCloud.
+
+[Lượt kiểm thử CI ban đầu](https://github.com/dammeiosvn/Call/actions/runs/40805375624)
+đạt bước validate; cần xem nội dung signing.json thay vì suy luận từ màu xanh của
+job (bước thử ký CLI được cho phép thất bại để vẫn thu thập báo cáo).
+
+**Chưa xác minh nhập tệp trên iPhone.** AEA1 và hash khớp là bằng chứng kiểm tra
+tệp phân phối, không phải bằng chứng toàn bộ tác vụ đã thực thi trên iOS.
 
 Trình validator cũ còn trong môi trường trước không có catalog action đi kèm và
 báo unknown cho cả action chuẩn; kết quả đó không được dùng làm chứng nhận.
@@ -117,3 +131,4 @@ Nguồn:
 - [ITU National Numbering Plans](https://www.itu.int/oth/t0202)
 - [Apple — ký từ dòng lệnh](https://support.apple.com/guide/shortcuts-mac/run-shortcuts-from-the-command-line-apd455c82f02/mac)
 - [Cherri — Phone actions](https://github.com/electrikmilk/cherri/blob/main/actions/contacts.cherri)
+- [Shortcuty — API ký công khai](https://github.com/Shortcuty/Signing-Server-API-Documentation/blob/main/README.md)

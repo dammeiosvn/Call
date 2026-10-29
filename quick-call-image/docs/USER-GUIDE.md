@@ -14,6 +14,9 @@ Chỉ tải tệp đã ký. `.unsigned.bplist` và tệp XML sinh từ mã ngu�
 thuật, không nhập trực tiếp được trên iOS hiện đại. Trạng thái ký được ghi tại
 `qa/signing.json` hoặc trong artifact `QuickCall-native-signing` của GitHub Actions.
 
+Đã có hai tệp ký trong `dist/`. Đầu tệp AEA1, mode anyone, hash và kích thước đã
+được kiểm tra; việc nhập và chạy trên iPhone đang chờ người dùng thử nghiệm.
+
 Mở tệp đã tải bằng ứng dụng Phím tắt và chọn thêm phím tắt. Tệp được ký ở chế độ
 `anyone`, không yêu cầu lưu người tạo vào danh bạ. Chữ ký không phải chứng nhận
 chức năng đã hoạt động trên thiết bị của bạn.

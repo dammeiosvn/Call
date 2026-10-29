@@ -192,6 +192,14 @@ class NativeWorkflowTests(unittest.TestCase):
         self.assertEqual(st['destinations'], [])
         self.assertEqual(len(st['menus']), 1)
 
+    def test_single_result_default_is_data_driven(self):
+        cat = copy.deepcopy(CAT)
+        cat['defaults']['singleResult'] = 'choose'
+        d = {'QuickCall/catalog.json': File('catalog.json', json.dumps(cat, ensure_ascii=False))}
+        st = run(NORMAL, incoming=image('0912345678'), disk=d, menus=['VN', 'vi', 'cancel'])
+        self.assertEqual(st['destinations'], [])
+        self.assertEqual(json.loads(st['disk']['QuickCall/settings.json'].body)['singleResult'], 'choose')
+
     def test_test_variant_never_contains_or_executes_call(self):
         self.assertNotIn('com.apple.mobilephone.call', [a['WFWorkflowActionIdentifier'] for a in TEST['WFWorkflowActions']])
         for region in CAT['countryOrder']:

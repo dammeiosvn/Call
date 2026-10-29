@@ -1,0 +1,43 @@
+{
+  "mode": "anyone",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "files": [
+    {
+      "name": "Quick Call Image",
+      "inputSHA256": "3b098e035f443fbb075bd0bdfbc38ef493525f82a6f469ac8585ec4317ed44ef",
+      "attempts": [
+        {
+          "binary": false,
+          "returnCode": 1,
+          "output": "Error: In order to do this, you must be signed into iCloud.\n"
+        },
+        {
+          "binary": true,
+          "returnCode": 1,
+          "output": "Error: In order to do this, you must be signed into iCloud.\n"
+        }
+      ],
+      "signed": false
+    },
+    {
+      "name": "Quick Call Image Test",
+      "inputSHA256": "ec40dae1d25700690361b4a82392977f01a119fea108769a45fd8e7498f1059e",
+      "attempts": [
+        {
+          "binary": false,
+          "returnCode": 1,
+          "output": "Error: In order to do this, you must be signed into iCloud.\n"
+        },
+        {
+          "binary": true,
+          "returnCode": 1,
+          "output": "Error: In order to do this, you must be signed into iCloud.\n"
+        }
+      ],
+      "signed": false
+    }
+  ],
+  "signed": false,
+  "iPhoneImportVerified": false,
+  "sourceCommit": "8d654f2085d0770a5372d5a929c2ac8ffaef859e"
+}
