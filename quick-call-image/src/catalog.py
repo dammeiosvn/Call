@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 REVISION = '8593ab70fa4fadffc042b2714034f4c52bef7daf'
-VERSION = '1.0.0-beta.2'
+VERSION = '1.0.0-beta.3'
 REGIONS = [
     ('VN', 'Việt Nam', 'vi'), ('TH', 'ไทย', 'th'), ('SG', 'Singapore', 'en'),
     ('MY', 'Malaysia', 'ms'), ('ID', 'Indonesia', 'id'), ('PH', 'Philippines', 'en'),

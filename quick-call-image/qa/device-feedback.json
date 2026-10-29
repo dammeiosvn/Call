@@ -15,5 +15,19 @@
     "Bundled/local metadata origin diagnostics",
     "Back up and recover incompatible catalog without resetting settings"
   ],
-  "iPhoneRetestVerified": false
+  "iPhoneRetestVerified": false,
+  "followup": {
+    "versionReported": "1.0.0-beta.2",
+    "metadataValidationPassed": true,
+    "countryMenuObserved": true,
+    "languageMenuObserved": true,
+    "filePermissionPromptObserved": true,
+    "testBannerObserved": true,
+    "settingsPersistenceVerified": false,
+    "ocrDestinationVerified": false,
+    "newFailure": "interaction limit warning",
+    "targetedFixVersion": "1.0.0-beta.3",
+    "targetedFix": "Repeat Count dynamic value uses substitutable text token; QC201 loop-state and QC202 route diagnostics",
+    "iPhoneRetestVerified": false
+  }
 }

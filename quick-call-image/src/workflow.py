@@ -151,7 +151,9 @@ class Workflow:
 
     def times(self, n):
         g = self.uid('repeat')
-        self.action('repeat.count', {'WFRepeatCount': ref(n) if isinstance(n, dict) else n,
+        # Repeat Count is a substitutable numeric field, not a content-input
+        # field. Dynamic values use a text token, as in Cherri's makeRepeatAction.
+        self.action('repeat.count', {'WFRepeatCount': token(n) if isinstance(n, dict) else n,
             'GroupingIdentifier': g, 'WFControlFlowMode': 0})
         self.loops.append(('repeat.count', g))
         return g

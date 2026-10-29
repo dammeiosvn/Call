@@ -1,12 +1,21 @@
 # Hướng dẫn sử dụng Quick Call Image
 
-Phiên bản 1.0.0-beta.2. Khuyến nghị thử trên iOS 18 trở lên. Beta.1 đã được cài
-trên iPhone nhưng dừng ở bước kiểm tra cấu hình. Beta.2 đang chờ thử lại; kết quả
-mô phỏng không thay thế bước thử thiết bị.
+Phiên bản 1.0.0-beta.3. Khuyến nghị thử trên iOS 18 trở lên. Beta.2 đã qua kiểm
+tra cấu hình trên iPhone nhưng sau đó báo giới hạn thao tác. Beta.3 đang chờ thử
+lại; kết quả mô phỏng không thay thế bước thử thiết bị.
+
+## Cập nhật từ beta.2 báo giới hạn thao tác
+
+Beta.2 đã hiển thị menu thiết lập trên iPhone nhưng chưa xử lý ảnh trọn vẹn.
+Thay bản Test cũ bằng **Quick Call Image Test beta.3**; giữ thư mục QuickCall.
+Chạy trực tiếp, cho phép lưu vào Tệp khi iOS hỏi, sau đó chọn một ảnh có một số.
+Kiểm tra số đích, rồi thử ảnh nhiều số và kiểm tra menu lựa chọn.
+Nếu còn cảnh báo, gửi trọn thông báo có QC201 (Pass/Limit/Route) hoặc QC202.
+Chưa dùng bản chính để gọi cho tới khi Test trả đúng số đích.
 
 ## Cập nhật từ beta.1 bị lỗi cấu hình
 
-1. Thay hai phím tắt cũ bằng hai tệp beta.2 mới; nếu iOS thêm bản trùng tên, xoá
+1. Thay hai phím tắt cũ bằng hai tệp beta.3 mới; nếu iOS thêm bản trùng tên, xoá
    riêng hai phím tắt beta.1 để tránh chạy nhầm từ bảng Chia sẻ.
 2. Chưa cần xoá thư mục QuickCall hoặc các tệp cấu hình.
 3. Mở **Quick Call Image Test** trực tiếp trong Phím tắt lần đầu. Nếu chưa có

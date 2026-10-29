@@ -316,7 +316,15 @@ def build(dry_run=False):
     w.assign('Route', 'shared')
     w.end_if(shared)
 
-    interactions = w.times(get(v('Catalog'), 'behavior.maxInteractions'))
+    w.assign('LoopPass', '0')
+    w.set('InteractionLimit', get(v('Catalog'), 'behavior.maxInteractions'))
+    interactions = w.times(v('InteractionLimit'))
+    w.set('LoopPass', v('Repeat Index'))
+    route_ok = w.if_match(v('Route'), r'\A(?:menu|shared|settings|about|cancel|camera|photos|manual|retry|ocr|parse)\z')
+    w.otherwise(route_ok)
+    w.alert(text(label('invalidConfig'), '\n\nQC202 · Route: [', v('Route'),
+                 '] · Pass: ', v('LoopPass')), stop=True)
+    w.end_if(route_ok)
     w.set('DefaultProfile', get(v('Catalog'), 'countries.', v('Region')))
     is_menu = w.if_eq(v('Route'), 'menu')
     w.set('Route', menu('main', 'sourcePrompt'))
@@ -423,7 +431,8 @@ def build(dry_run=False):
     w.end_if(cancel)
     w.end_if(parse)
     w.end_loop(interactions)
-    w.alert(label('limit'), stop=True)
+    w.alert(text(label('limit'), '\n\nQC201 · Pass: ', v('LoopPass'),
+                 ' · Limit: ', v('InteractionLimit'), ' · Route: [', v('Route'), ']'), stop=True)
     return w.header()
 
 

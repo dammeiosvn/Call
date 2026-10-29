@@ -1,6 +1,24 @@
 # Báo cáo mã nguồn và kiểm thử
 
-**Dự án:** Quick Call Image · **Phiên bản:** 1.0.0-beta.2 · **Ngày:** 2026-10-29.
+**Dự án:** Quick Call Image · **Phiên bản:** 1.0.0-beta.3 · **Ngày:** 2026-10-29.
+
+## Phản hồi beta.2 và bản sửa beta.3
+
+Ảnh thiết bị cho thấy đã đi qua kiểm tra metadata, hiển thị đúng menu quốc gia
+và ngôn ngữ, hiện yêu cầu quyền lưu và thông báo bản Test. Sau đó người dùng
+nhận cảnh báo giới hạn thao tác; chưa có kết quả OCR/số đích để xác nhận lõi gọi.
+Không coi menu thiết lập hiển thị là bằng chứng toàn bộ chức năng đã hoạt động.
+
+Đường xuất Repeat Count dùng tham chiếu nội dung trực tiếp trong trường số có
+thể thay thế. Beta.3 chuyển giá trị động sang WFTextTokenString có attachment,
+đối chiếu cách Cherri makeRepeatAction xuất biến trong trường WFRepeatCount.
+Giới hạn vẫn đọc từ catalog, không tăng giới hạn để che lỗi. Thêm QC201 gồm số
+lượt thực tế/giới hạn/Route và QC202 chặn Route không hợp lệ. Nếu cảnh báo lặp
+lại, Pass=0 giúp phân biệt vòng lặp không chạy với vòng lặp đã chạy hết lượt.
+
+23 phương thức host đạt, gồm kiểm tra kiểu lưu Repeat Count và giới hạn động.
+Cần thử lại trên iPhone để xác nhận giả thuyết trường số lặp; chưa kết luận duy
+nhất nguyên nhân từ ảnh. Chỉ hướng dẫn người dùng chạy bản Test beta.3 trước.
 
 ## Phản hồi thiết bị và bản sửa beta.2
 
@@ -73,7 +91,7 @@ Phần nhập số hỗ trợ tập quy tắc được nêu ở đây, không ph
 
 ## Bằng chứng kiểm thử host
 
-- **21 phương thức kiểm thử đạt**, không lỗi/không bỏ qua trong lần chạy có oracle.
+- **23 phương thức kiểm thử đạt**, không lỗi/không bỏ qua trong lần chạy có oracle.
 - **189 kịch bản số điện thoại đạt**, lưu chi tiết input/expected/actual tại `qa/test-results.json`.
 - **1.620 phép so sánh** mẫu số với `phonenumbers==9.0.42` đạt, gồm mẫu nguồn và số giả sinh xác định.
 - Đối chiếu chỉ tính số canonical: parser Google có thể tự bỏ tiền tố sau `+CC`,

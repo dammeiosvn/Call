@@ -39,6 +39,26 @@ def scenario(name, body, expected, region='VN', **kwargs):
 
 
 class NativeWorkflowTests(unittest.TestCase):
+    def test_dynamic_repeat_count_uses_substitutable_token_not_content_attachment(self):
+        for workflow in (NORMAL, TEST):
+            repeats = [a['WFWorkflowActionParameters'] for a in workflow['WFWorkflowActions']
+                       if a['WFWorkflowActionIdentifier'] == 'is.workflow.actions.repeat.count'
+                       and a['WFWorkflowActionParameters']['WFControlFlowMode'] == 0]
+            self.assertEqual(len(repeats), 1)
+            field = repeats[0]['WFRepeatCount']
+            self.assertEqual(field['WFSerializationType'], 'WFTextTokenString')
+            self.assertEqual(field['Value']['string'], '\ufffc')
+            self.assertEqual(field['Value']['attachmentsByRange']['{0, 1}']['VariableName'], 'InteractionLimit')
+
+    def test_interaction_limit_is_data_driven_and_reports_loop_state(self):
+        cat = copy.deepcopy(CAT)
+        cat['behavior']['maxInteractions'] = 2
+        st = run(TEST, disk=disk(catalog=cat), menus=['about', 'about'])
+        self.assertEqual(len(st['menus']), 2)
+        self.assertIn('QC201', st['alerts'][-1])
+        self.assertIn('Pass: 2', st['alerts'][-1])
+        self.assertEqual(st['destinations'], [])
+
     def test_native_condition_storage_and_explicit_dictionary_walks(self):
         for workflow in (NORMAL, TEST):
             for action in workflow['WFWorkflowActions']:
