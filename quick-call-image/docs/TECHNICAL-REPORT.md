@@ -78,3 +78,11 @@ Nguồn: [Google metadata](https://github.com/google/libphonenumber/tree/8593ab7
 [Apple Repeat](https://support.apple.com/guide/shortcuts/use-repeat-actions-apdc11deb2c1/ios),
 [Apple ký CLI](https://support.apple.com/guide/shortcuts-mac/run-shortcuts-from-the-command-line-apd455c82f02/mac),
 [Shortcuty signing API](https://github.com/Shortcuty/Signing-Server-API-Documentation).
+
+## Trạng thái phân phối beta.5
+
+Nguồn và các đầu vào unsigned đã hoàn tất. Duyệt tự động từ chối gửi đến dịch vụ
+ký thứ ba vì chưa có chấp thuận rõ ràng cho đích đó. Chưa có bản cài beta.5 đã ký
+được xác minh trong phiên này. Không lấy artifact từ đường ký thứ ba làm cách
+vòng qua chặn. CI đã bỏ bước dự phòng ký bên thứ ba; vẫn giữ kiểm thử và thử CLI
+Apple. Các bản ký beta.4 cũ được ghi riêng, không gắn nhãn lại thành beta.5.

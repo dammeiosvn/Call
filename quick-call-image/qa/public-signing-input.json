@@ -1,9 +1,9 @@
 {
-  "sourceCommit": "cd984f432d9c18225df231da331925c6390735b9",
+  "sourceCommit": "f3fdd5d774195cf210fb3a73648e1109f1241d74",
   "dependencies": [
     {
       "path": "quick-call-image/src/build.py",
-      "gitSHA": "7b7d23577c1f0c181e91ea292b4918454b16464c"
+      "gitSHA": "5aa37f3a164399549afb1c5b1ff0b84ea67ac5fc"
     },
     {
       "path": "quick-call-image/src/workflow.py",
@@ -11,21 +11,23 @@
     },
     {
       "path": "quick-call-image/config/catalog.json",
-      "gitSHA": "67ee5fb412504ed5ca2928755412e4313c275abd"
+      "gitSHA": "adf7cec8f297e7fdb86f9de6c306a25fdf26b546"
     }
   ],
   "inputs": [
     {
       "name": "Quick-Call-Image",
-      "bytes": 241296,
-      "sha256": "ad974c45be94f5ea9b612fc03dcc4371615571e682d36ea524ed94656f4e6363",
-      "reproducedFromDependencies": true
+      "signed": false,
+      "inputFile": "Quick-Call-Image.unsigned.bplist",
+      "inputSHA256": "c908308358e0eec01eb0ab03c46e1b9e2040f17e10afbf22d7a19630bbca549b",
+      "size": 315230
     },
     {
       "name": "Quick-Call-Image-Test",
-      "bytes": 239403,
-      "sha256": "efe5942dd10a41b33336fb62cb3ac64a6fda7982bd45f53b5c5f462810c099da",
-      "reproducedFromDependencies": true
+      "signed": false,
+      "inputFile": "Quick-Call-Image-Test.unsigned.bplist",
+      "inputSHA256": "a87747dec52bb9fc3ad7719a84816e6de5ce14ffc9f5001bef0109cf24895c08",
+      "size": 313872
     }
   ]
 }

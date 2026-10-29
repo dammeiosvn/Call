@@ -49,9 +49,7 @@ jobs:
         id: sign
         continue-on-error: true
         run: python quick-call-image/src/sign_macos.py
-      - name: Public signing fallback when the runner has no iCloud session
-        if: steps.sign.outcome == 'failure'
-        run: python quick-call-image/src/sign_remote.py
+      # Third-party signing is manual and requires explicit user approval.
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

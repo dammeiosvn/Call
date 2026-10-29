@@ -1,0 +1,31 @@
+{
+  "provider": "Shortcuty public signing API",
+  "endpoint": "https://sign.shortcuty.app/api/v1/sign?response=json",
+  "mode": "anyone",
+  "signed": true,
+  "iPhoneImportVerified": false,
+  "files": [
+    {
+      "name": "Quick Call Image",
+      "signed": true,
+      "format": "AEA1",
+      "mode": "anyone",
+      "inputFile": "Quick-Call-Image.unsigned.bplist",
+      "inputSHA256": "ad974c45be94f5ea9b612fc03dcc4371615571e682d36ea524ed94656f4e6363",
+      "sha256": "1ad671ff3c24f6ec1767518ef2aaff7e6a641e6bc001ef4bc84602ee43240ba4",
+      "size": 137943,
+      "path": "Quick Call Image.shortcut"
+    },
+    {
+      "name": "Quick Call Image Test",
+      "signed": true,
+      "format": "AEA1",
+      "mode": "anyone",
+      "inputFile": "Quick-Call-Image-Test.unsigned.bplist",
+      "inputSHA256": "efe5942dd10a41b33336fb62cb3ac64a6fda7982bd45f53b5c5f462810c099da",
+      "sha256": "cb752aa2bfe8a73b434b789cf096165e0830b451a6d5c1d75f8d05284b015232",
+      "size": 136902,
+      "path": "Quick Call Image Test.shortcut"
+    }
+  ]
+}

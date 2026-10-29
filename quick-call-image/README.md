@@ -9,7 +9,7 @@ cố định và di động theo dữ liệu 20 vùng; chuẩn hoá mã quốc g
 beta.5 sửa xác minh lưu cấu hình, kết thúc thiết lập, menu gọn và hộp kết quả Test.
 Beta.5 đang chờ kiểm tra lại trên iPhone, chưa phát hành cộng đồng chính thức.
 
-**Nguồn beta.5 đã cập nhật, bản cài đang chờ ký. Các tệp dist chưa được thay thế.**
+**Nguồn beta.5 đã hoàn tất; ký bản cài đang chờ người dùng cho phép dịch vụ ký bên thứ ba. Hai tệp .shortcut trong dist vẫn là beta.4; không dùng để kiểm tra beta.5.**
 
 ## Bản cài
 
