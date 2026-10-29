@@ -9,7 +9,7 @@ cố định và di động theo dữ liệu 20 vùng; chuẩn hoá mã quốc g
 nhầm lỗi cấu hình sau chọn ảnh. Beta.6 bỏ lần nhận diện số thừa trước Call, dùng
 chung phép chuyển kiểu số iOS ở cả Test và Gọi, thêm QC401/QC402. Đang chờ thử lại.
 
-**Nguồn beta.6 đã cập nhật; bản cài beta.6 đang chờ ký. Các tệp dist còn là beta.5.**
+**Hai tệp beta.6 đã ký, kiểm tra AEA1, mode anyone và hash thành công. Giữ thư mục QuickCall; thay bản Gọi beta.5 bằng beta.6 để thử lại. Bản Test mới kiểm tra cùng bước chuyển kiểu trước Call.**
 
 ## Bản cài
 

@@ -104,6 +104,8 @@ Nguồn: [Google metadata](https://github.com/google/libphonenumber/tree/8593ab7
 
 ## Trạng thái phân phối beta.6
 
-Nguồn và kiểm thử đã hoàn tất, bản cài mới đang chờ ký. Báo cáo ký beta.5 giữ
-riêng tại qa/signing-beta5.json. Không gắn lại nhãn beta.5 thành beta.6. Ký sẽ dùng
-nguồn đã công khai; chữ ký không thay thế bước xác minh cuộc gọi thật.
+Hai tệp beta.6 đã ký bằng API Shortcuty, mode anyone. Input bplist khớp graph XML
+và được dựng từ nguồn đã công khai, xem qa/public-signing-input.json. Xác minh
+input/output SHA256, AEA1 và size, xem qa/signing.json. Source ZIP chứa mã và đầu
+vào unsigned; bản cài đã ký tải riêng trong dist. Giữ bản ghi chữ ký beta.5 riêng.
+Chưa có lần nhập/chạy beta.6 hoặc cuộc gọi beta.6 trên iPhone được xác nhận.

@@ -1,6 +1,33 @@
 {
+  "provider": "Shortcuty public signing API",
+  "endpoint": "https://sign.shortcuty.app/api/v1/sign?response=json",
+  "mode": "anyone",
+  "signed": true,
+  "iPhoneImportVerified": false,
+  "files": [
+    {
+      "name": "Quick Call Image",
+      "signed": true,
+      "format": "AEA1",
+      "mode": "anyone",
+      "inputFile": "Quick-Call-Image.unsigned.bplist",
+      "inputSHA256": "82b5d4c2bd8a8e1e6e955bdbca2d7abb360177690c1c97c16b16d1454c4ead1d",
+      "sha256": "d6c5a19c02d4cd98debc7aa82b9e68533ad910478dd5476d021d15b0be21b371",
+      "size": 171386,
+      "path": "Quick Call Image.shortcut"
+    },
+    {
+      "name": "Quick Call Image Test",
+      "signed": true,
+      "format": "AEA1",
+      "mode": "anyone",
+      "inputFile": "Quick-Call-Image-Test.unsigned.bplist",
+      "inputSHA256": "251bf6f21585e8c277b6477e26ff1cf757092eb1e9506b9dcc08d1034619f949",
+      "sha256": "b11dff4e32de6452be5a241e527f897028582356d08a2291118417d6b22b258d",
+      "size": 171710,
+      "path": "Quick Call Image Test.shortcut"
+    }
+  ],
   "version": "1.0.0-beta.6",
-  "signed": false,
-  "status": "source-ready-pending-signing",
-  "iPhoneImportVerified": false
+  "publicSourceCommit": "c106fe169f5fe5bad0df8ea79ab518183fd36613"
 }
