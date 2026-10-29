@@ -11,9 +11,7 @@ Chỉ tệp đã ký `Quick Call Image.shortcut` và `Quick Call Image Test.shor
 mới là bản cài. Các tệp `.unsigned.bplist` là đầu vào kỹ thuật, không phải bản cài iOS.
 Xem [báo cáo kỹ thuật](docs/TECHNICAL-REPORT.md) và `qa/signing.json` để biết trạng thái chữ ký.
 
-**Lưu ý bản nguồn beta.4 đang chờ ký. Hai tệp dist bên dưới hiện vẫn thuộc bản trước; chưa dùng để thử beta.4.**
-
-**Hai tệp phân phối:**
+**Hai tệp beta.4 đã ký:**
 
 - [Quick Call Image Test.shortcut](dist/Quick%20Call%20Image%20Test.shortcut) — chỉ hiện số đích, không gọi.
 - [Quick Call Image.shortcut](dist/Quick%20Call%20Image.shortcut) — bản chính có tác vụ gọi.

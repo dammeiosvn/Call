@@ -148,7 +148,7 @@ hay cấu hình người dùng. CI có bước dự phòng này nếu máy ký t
 đạt bước validate; cần xem nội dung signing.json thay vì suy luận từ màu xanh của
 job (bước thử ký CLI được cho phép thất bại để vẫn thu thập báo cáo).
 
-**Beta.1 đã nhập được trên iPhone nhưng lỗi khởi tạo. Beta.2 chưa được thử lại.**
+**Beta.1 lỗi khởi tạo; beta.2 hiện được thiết lập; beta.3 báo QC202. Beta.4 chưa được thử trên iPhone.**
 AEA1 và hash khớp là bằng chứng kiểm tra tệp phân phối, không phải bằng chứng
 toàn bộ tác vụ đã thực thi trên iOS.
 

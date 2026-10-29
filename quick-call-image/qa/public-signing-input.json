@@ -1,0 +1,31 @@
+{
+  "sourceCommit": "cd984f432d9c18225df231da331925c6390735b9",
+  "dependencies": [
+    {
+      "path": "quick-call-image/src/build.py",
+      "gitSHA": "7b7d23577c1f0c181e91ea292b4918454b16464c"
+    },
+    {
+      "path": "quick-call-image/src/workflow.py",
+      "gitSHA": "6899370d23818df962415d458170426f7d64ef48"
+    },
+    {
+      "path": "quick-call-image/config/catalog.json",
+      "gitSHA": "67ee5fb412504ed5ca2928755412e4313c275abd"
+    }
+  ],
+  "inputs": [
+    {
+      "name": "Quick-Call-Image",
+      "bytes": 241296,
+      "sha256": "ad974c45be94f5ea9b612fc03dcc4371615571e682d36ea524ed94656f4e6363",
+      "reproducedFromDependencies": true
+    },
+    {
+      "name": "Quick-Call-Image-Test",
+      "bytes": 239403,
+      "sha256": "efe5942dd10a41b33336fb62cb3ac64a6fda7982bd45f53b5c5f462810c099da",
+      "reproducedFromDependencies": true
+    }
+  ]
+}
