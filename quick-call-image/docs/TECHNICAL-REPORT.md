@@ -81,8 +81,9 @@ Nguồn: [Google metadata](https://github.com/google/libphonenumber/tree/8593ab7
 
 ## Trạng thái phân phối beta.5
 
-Nguồn và các đầu vào unsigned đã hoàn tất. Duyệt tự động từ chối gửi đến dịch vụ
-ký thứ ba vì chưa có chấp thuận rõ ràng cho đích đó. Chưa có bản cài beta.5 đã ký
-được xác minh trong phiên này. Không lấy artifact từ đường ký thứ ba làm cách
-vòng qua chặn. CI đã bỏ bước dự phòng ký bên thứ ba; vẫn giữ kiểm thử và thử CLI
-Apple. Các bản ký beta.4 cũ được ghi riêng, không gắn nhãn lại thành beta.5.
+Hai tệp beta.5 đã ký qua API Shortcuty sau khi người dùng cho phép tiếp tục bước
+ký đã nêu. Chỉ đầu vào dựng lại từ nguồn công khai được gửi; không có ảnh/video
+hoặc settings trên thiết bị. Input/output SHA256, AEA1, anyone và size được xác
+minh, xem qa/signing.json. CI giữ đường thử CLI Apple; ký bên thứ ba là thao tác
+thủ công, không tự chạy. Source ZIP chứa mã và đầu vào unsigned, bản cài đã ký tải
+riêng trong dist. Chữ ký không thay thế bước kiểm tra beta.5 trên iPhone.
