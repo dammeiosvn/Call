@@ -23,10 +23,12 @@ def build(dry_run=False):
     w = Workflow('Quick Call Image Test' if dry_run else 'Quick Call Image')
     a, get, text, put, label = w.action, w.get, w.text, w.put, w.label
 
-    def require_eq(value, expected, message='invalidConfig'):
+    def require_eq(value, expected, message='invalidConfig', code=None):
         g = w.if_eq(value, expected)
         w.otherwise(g)
-        w.alert(label(message), stop=True)
+        details = text(label(message), '\n\n', code, '\nActual: [', value,
+                       '] · Expected: [', expected, ']') if code else label(message)
+        w.alert(details, stop=True)
         w.end_if(g)
 
     def load_strings():
@@ -241,23 +243,38 @@ def build(dry_run=False):
         w.end_loop(candidate_loop)
         w.end_loop(lines_loop)
 
-    a('comment', {'WFCommentActionText': 'Quick Call Image · 1.0.0-beta.1\nCommunity testing build. Configuration, languages and icons are bundled below. On-device settings live in QuickCall. The Test variant never contains a Call action.'})
+    a('comment', {'WFCommentActionText': 'Quick Call Image · ' + CATALOG['meta']['configVersion'] + '\nCommunity testing build. Configuration, languages and icons are bundled below. On-device settings live in QuickCall. The Test variant never contains a Call action.'})
     resources = a('dictionary', {'WFItems': dictionary_value({'CatalogJSON': CATALOG_JSON,
         'AppVersion': CATALOG['meta']['configVersion']})}, 'QuickCall · Editable Resources')
     w.set('EmbeddedCatalogJSON', get(resources, 'CatalogJSON'))
     w.set('Catalog', a('detect.dictionary', {'WFInput': ref(v('EmbeddedCatalogJSON'))}, 'Bundled catalog'))
-    w.set('Strings', get(v('Catalog'), 'languages.en'))
+    w.set('Strings', get(v('Catalog'), 'languages.vi'))
+    # Verify the embedded resource before reading any local files. A failure
+    # here is a build/import defect, never evidence of a damaged user file.
+    require_eq(get(v('Catalog'), 'meta.schemaVersion'), '1', code='QC101-B · Bundled schema')
+    require_eq(get(v('Catalog'), 'meta.engineRevision'), '1', code='QC102-B · Bundled engine')
     w.set('SharedImages', a('detect.images', {'WFInput': ref({'Type': 'ExtensionInput'})}, 'Shared images'))
     w.set('StorageRoot', a('file', {'WFFile': SHORTCUTS_FOLDER}, 'Portable Shortcuts folder'))
     catalog_file = read_file('catalog.json')
     catalog_exists = w.if_gt(w.count(catalog_file))
     w.set('Catalog', a('detect.dictionary', {'WFInput': ref(catalog_file)}, 'Local catalog'))
+    w.assign('LocalCatalogValid', '0')
+    schema_ok = w.if_eq(get(v('Catalog'), 'meta.schemaVersion'), '1')
+    engine_ok = w.if_eq(get(v('Catalog'), 'meta.engineRevision'), '1')
+    w.assign('LocalCatalogValid', '1')
+    w.end_if(engine_ok)
+    w.end_if(schema_ok)
+    incompatible = w.if_eq(v('LocalCatalogValid'), '0')
+    save_file(text(catalog_file), 'catalog.previous.json')
+    persist_catalog()
+    w.set('Catalog', a('detect.dictionary', {'WFInput': ref(v('EmbeddedCatalogJSON'))}, 'Recovered catalog'))
+    w.end_if(incompatible)
     w.otherwise(catalog_exists)
     create_folder()
     persist_catalog()
     w.end_if(catalog_exists)
-    require_eq(get(v('Catalog'), 'meta.schemaVersion'), '1')
-    require_eq(get(v('Catalog'), 'meta.engineRevision'), '1')
+    require_eq(get(v('Catalog'), 'meta.schemaVersion'), '1', code='QC101-L · Loaded schema')
+    require_eq(get(v('Catalog'), 'meta.engineRevision'), '1', code='QC102-L · Loaded engine')
     w.assign('SettingsValid', '0')
     w.assign('Region', 'VN')
     w.assign('Language', 'en')

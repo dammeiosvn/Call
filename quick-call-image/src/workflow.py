@@ -36,6 +36,11 @@ def dictionary_value(items):
     ]}, 'WFSerializationType': 'WFDictionaryFieldValue'}
 
 
+def string_parameter(*parts):
+    """Use native scalar storage for literals; tokens only for substitutions."""
+    return token(*parts) if any(isinstance(p, dict) for p in parts) else ''.join(map(str, parts))
+
+
 class Workflow:
     def __init__(self, name):
         self.name = name
@@ -65,8 +70,23 @@ class Workflow:
         return self.set(name, self.text(*parts, name=name))
 
     def get(self, source, *key, name='Dictionary value'):
-        return self.action('getvalueforkey', {'WFInput': ref(source),
-            'WFGetDictionaryValueType': 'Value', 'WFDictionaryKey': token(*key)}, name)
+        # Walk nested dictionaries explicitly. Each action has one literal or
+        # dynamic key, with no dependency on dotted-path coercion at import.
+        segments = [[]]
+        for part in key:
+            if isinstance(part, dict):
+                segments[-1].append(part)
+            else:
+                for i, piece in enumerate(str(part).split('.')):
+                    if i:
+                        segments.append([])
+                    if piece:
+                        segments[-1].append(piece)
+        for segment in segments:
+            assert segment, ('Empty dictionary path segment', key)
+            source = self.action('getvalueforkey', {'WFInput': ref(source),
+                'WFGetDictionaryValueType': 'Value', 'WFDictionaryKey': string_parameter(*segment)}, name)
+        return source
 
     def keys(self, source):
         return self.action('getvalueforkey', {'WFInput': ref(source), 'WFGetDictionaryValueType': 'All Keys'}, 'Keys')
@@ -102,14 +122,14 @@ class Workflow:
         value = self.text(value, name='Condition text')
         g = self.uid('if')
         self.action('conditional', {'WFInput': {'Type': 'Variable', 'Variable': ref(value, 'WFStringContentItem')},
-            'WFCondition': 4, 'WFConditionalActionString': token(*other),
+            'WFCondition': 4, 'WFConditionalActionString': string_parameter(*other),
             'GroupingIdentifier': g, 'WFControlFlowMode': 0})
         return g
 
     def if_gt(self, value, n=0):
         g = self.uid('if')
         self.action('conditional', {'WFInput': {'Type': 'Variable', 'Variable': ref(value, 'WFNumberContentItem')},
-            'WFCondition': 2, 'WFNumberValue': token(n),
+            'WFCondition': 2, 'WFNumberValue': ref(n) if isinstance(n, dict) else n,
             'GroupingIdentifier': g, 'WFControlFlowMode': 0})
         return g
 

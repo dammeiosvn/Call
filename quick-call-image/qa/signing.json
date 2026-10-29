@@ -11,9 +11,9 @@
       "format": "AEA1",
       "mode": "anyone",
       "inputFile": "Quick-Call-Image.unsigned.bplist",
-      "inputSHA256": "89d16dac941583dfdeb103a9f7b7f3150e43d1ad63b5e62f6728be65921c7632",
-      "sha256": "4426f4923acfc771cee83500435c2776bf3de7f2de646f992176e4a803e5c0b7",
-      "size": 111444,
+      "inputSHA256": "ab1fea1ee82310cd420d82b8fe5d3d306c81d7003021480546cffbccf65a7072",
+      "sha256": "b930e8a43262f7b4acf5d8dd0208cb4724cebe92dffa370e5e359a10f00bd4cd",
+      "size": 116044,
       "path": "Quick Call Image.shortcut"
     },
     {
@@ -22,9 +22,9 @@
       "format": "AEA1",
       "mode": "anyone",
       "inputFile": "Quick-Call-Image-Test.unsigned.bplist",
-      "inputSHA256": "b22fb76aed6a04571efe502372939607f5c4b85ff7985cdec6400bca60c7ad2f",
-      "sha256": "7f95c223aaeca3a0b70a39108b4d412d18309b0a2d406d5f3df50415415b0a67",
-      "size": 110325,
+      "inputSHA256": "bedf0ffc085401aeaf132ec5ae39690c3572391e626f56127064f82e156e1ccb",
+      "sha256": "f610ae1bf69368aa3a401e767dc6d2ee0d9df6acb868d010f2613d311ddaa407",
+      "size": 114894,
       "path": "Quick Call Image Test.shortcut"
     }
   ]

@@ -127,8 +127,13 @@ def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), dis
                 if ident == 'conditional':
                     condition = p['WFCondition']
                     if condition == 4:
+                        rhs = p['WFConditionalActionString']
+                        if isinstance(rhs, dict):
+                            assert rhs.get('Value', {}).get('attachmentsByRange'), 'Literal string conditions must use scalar storage'
                         yes = stringify(evaluate(p['WFInput'])) == stringify(evaluate(p['WFConditionalActionString']))
                     elif condition == 2:
+                        rhs = p['WFNumberValue']
+                        assert isinstance(rhs, (int, float)) or rhs.get('WFSerializationType') == 'WFTextTokenAttachment', 'Numeric condition must use number or variable attachment'
                         yes = float(stringify(evaluate(p['WFInput']))) > float(stringify(evaluate(p['WFNumberValue'])))
                     else:
                         raise AssertionError(condition)
@@ -175,8 +180,9 @@ def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), dis
                 if p['WFGetDictionaryValueType'] == 'All Keys':
                     answer = list(value)
                 else:
-                    for part in stringify(evaluate(p['WFDictionaryKey'])).split('.'):
-                        value = value.get(part) if isinstance(value, dict) else None
+                    key = stringify(evaluate(p['WFDictionaryKey']))
+                    assert '.' not in key, 'Shipping graph must walk nested dictionaries explicitly'
+                    value = value.get(key) if isinstance(value, dict) else None
                     answer = value
             elif ident == 'setvalueforkey':
                 answer = dict(evaluate(p['WFDictionary']))

@@ -1,0 +1,19 @@
+{
+  "versionReported": "1.0.0-beta.1",
+  "installationReported": true,
+  "startupReported": "invalid configuration before OCR",
+  "pathsReported": [
+    "direct launch",
+    "image share sheet"
+  ],
+  "failureLocation": "catalog metadata validation",
+  "rootCauseConfirmed": false,
+  "targetedFixVersion": "1.0.0-beta.2",
+  "targetedFixes": [
+    "Native scalar comparison literals",
+    "Explicit nested dictionary reads",
+    "Bundled/local metadata origin diagnostics",
+    "Back up and recover incompatible catalog without resetting settings"
+  ],
+  "iPhoneRetestVerified": false
+}

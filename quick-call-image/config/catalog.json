@@ -2,7 +2,7 @@
   "meta": {
     "schemaVersion": "1",
     "engineRevision": "1",
-    "configVersion": "1.0.0-beta.1",
+    "configVersion": "1.0.0-beta.2",
     "metadataRevision": "8593ab70fa4fadffc042b2714034f4c52bef7daf",
     "metadataSHA256": "b6491939ddaeb9d585a34fe0f0ebd096e83c5ac9a1c5d6dddf38ba4b162b28ca",
     "metadataSource": "https://github.com/google/libphonenumber/tree/8593ab70fa4fadffc042b2714034f4c52bef7daf",

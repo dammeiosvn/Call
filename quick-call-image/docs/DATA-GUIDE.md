@@ -83,3 +83,5 @@ chung để bắt mọi lỗi. Xoá catalog hỏng để khởi tạo lại từ
 
 Thư mục trên thiết bị chỉ lưu cấu hình, không lưu ảnh, văn bản OCR hay nhật ký
 cuộc gọi. Bản sao `settings.previous.json` chỉ được tạo khi đổi cài đặt.
+Từ beta.2, `catalog.previous.json` giữ catalog JSON đọc được nhưng có schema hoặc
+engine không tương thích trước khi khôi phục. Catalog tương thích được giữ nguyên.

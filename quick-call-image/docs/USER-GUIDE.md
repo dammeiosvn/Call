@@ -1,7 +1,24 @@
 # Hướng dẫn sử dụng Quick Call Image
 
-Phiên bản 1.0.0-beta.1. Khuyến nghị thử trên iOS 18 trở lên. Chưa xác minh thực
-thi trên iPhone; kết quả mô phỏng không thay thế bước thử thiết bị.
+Phiên bản 1.0.0-beta.2. Khuyến nghị thử trên iOS 18 trở lên. Beta.1 đã được cài
+trên iPhone nhưng dừng ở bước kiểm tra cấu hình. Beta.2 đang chờ thử lại; kết quả
+mô phỏng không thay thế bước thử thiết bị.
+
+## Cập nhật từ beta.1 bị lỗi cấu hình
+
+1. Thay hai phím tắt cũ bằng hai tệp beta.2 mới; nếu iOS thêm bản trùng tên, xoá
+   riêng hai phím tắt beta.1 để tránh chạy nhầm từ bảng Chia sẻ.
+2. Chưa cần xoá thư mục QuickCall hoặc các tệp cấu hình.
+3. Mở **Quick Call Image Test** trực tiếp trong Phím tắt lần đầu. Nếu chưa có
+   cài đặt, bạn sẽ được chọn quốc gia/vùng và ngôn ngữ rồi cấp quyền lưu tệp.
+4. Chọn ảnh hoặc chia sẻ một ảnh để kiểm tra số đích.
+5. Nếu vẫn báo lỗi, chụp trọn thông báo có mã `QC101-B`, `QC102-B`, `QC101-L`
+   hoặc `QC102-L` và giá trị Actual/Expected. Không sửa điều kiện thủ công.
+
+Mã đuôi `B` chỉ dữ liệu nhúng, `L` chỉ dữ liệu nạp. Lỗi dữ liệu nhúng không phải
+bằng chứng tệp của bạn bị hỏng. Catalog có JSON hợp lệ nhưng schema/engine không
+tương thích sẽ được sao lưu vào `catalog.previous.json` rồi khôi phục từ bản
+nhúng; cài đặt quốc gia/ngôn ngữ vẫn giữ. JSON sai cú pháp vẫn cần xử lý như mục 6.
 
 ## 1. Chọn đúng tệp để cài
 

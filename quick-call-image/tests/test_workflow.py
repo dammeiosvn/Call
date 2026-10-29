@@ -39,6 +39,51 @@ def scenario(name, body, expected, region='VN', **kwargs):
 
 
 class NativeWorkflowTests(unittest.TestCase):
+    def test_native_condition_storage_and_explicit_dictionary_walks(self):
+        for workflow in (NORMAL, TEST):
+            for action in workflow['WFWorkflowActions']:
+                kind = action['WFWorkflowActionIdentifier'].split('.')[-1]
+                p = action['WFWorkflowActionParameters']
+                if kind == 'conditional' and p.get('WFControlFlowMode') == 0:
+                    if p['WFCondition'] == 2:
+                        rhs = p['WFNumberValue']
+                        self.assertTrue(isinstance(rhs, (int, float)) or rhs.get('WFSerializationType') == 'WFTextTokenAttachment')
+                    elif p['WFCondition'] == 4:
+                        rhs = p['WFConditionalActionString']
+                        self.assertTrue(isinstance(rhs, str) or rhs['Value']['attachmentsByRange'])
+                if kind == 'getvalueforkey' and 'WFDictionaryKey' in p:
+                    key = p['WFDictionaryKey']
+                    self.assertNotIn('.', key if isinstance(key, str) else key['Value']['string'])
+
+    def test_incompatible_catalog_is_backed_up_and_recovers_without_resetting_settings(self):
+        for key in ('schemaVersion', 'engineRevision'):
+            cat = copy.deepcopy(CAT)
+            cat['meta'][key] = 'unsupported'
+            d = disk(catalog=cat)
+            st = run(TEST, incoming=image('0912345678'), disk=d)
+            self.assertEqual(st['menus'], [])
+            self.assertEqual(st['alerts'], [])
+            self.assertEqual(st['disk']['QuickCall/settings.json'], d['QuickCall/settings.json'])
+            self.assertEqual(json.loads(st['disk']['QuickCall/catalog.previous.json'].body), cat)
+            self.assertEqual(json.loads(st['disk']['QuickCall/catalog.json'].body), CAT)
+            self.assertTrue(st['previews'][0].endswith('+84912345678'))
+
+    def test_bundled_schema_failure_reports_origin_before_disk_or_ocr(self):
+        workflow = copy.deepcopy(TEST)
+        for action in workflow['WFWorkflowActions']:
+            if action['WFWorkflowActionIdentifier'] == 'is.workflow.actions.dictionary':
+                item = action['WFWorkflowActionParameters']['WFItems']['Value']['WFDictionaryFieldValueItems'][0]
+                cat = copy.deepcopy(CAT)
+                cat['meta']['schemaVersion'] = '9'
+                item['WFValue']['Value']['string'] = json.dumps(cat)
+                break
+        st = run(workflow, incoming=image('0912345678'))
+        self.assertIn('QC101-B', st['alerts'][0])
+        self.assertIn('Actual: [9]', st['alerts'][0])
+        self.assertEqual(st['writes'], [])
+        self.assertEqual(st['ocrCalls'], 0)
+        self.assertEqual(st['destinations'], [])
+
     def test_reproducible_source_and_payloads(self):
         self.assertEqual(CAT, compile_catalog())
         self.assertEqual(NORMAL, build(False))

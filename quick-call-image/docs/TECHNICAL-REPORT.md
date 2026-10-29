@@ -1,6 +1,28 @@
 # Báo cáo mã nguồn và kiểm thử
 
-**Dự án:** Quick Call Image · **Phiên bản:** 1.0.0-beta.1 · **Ngày:** 2026-10-29.
+**Dự án:** Quick Call Image · **Phiên bản:** 1.0.0-beta.2 · **Ngày:** 2026-10-29.
+
+## Phản hồi thiết bị và bản sửa beta.2
+
+Người dùng xác nhận đã cài cả hai tệp beta.1, chạy trực tiếp và từ bảng Chia sẻ
+đều thấy cảnh báo cấu hình không hợp lệ. Ảnh cho thấy dừng tại kiểm tra metadata,
+trước OCR; chưa có bằng chứng số điện thoại hay quyền camera là nguyên nhân.
+Không công bố ảnh hoặc thông tin liên hệ trên hoá đơn của người dùng vào repo.
+
+Beta.2 thay các literal `WFConditionalActionString` bằng String gốc và literal
+`WFNumberValue` bằng Number gốc; chỉ dùng token/attachment khi có biến thật.
+Mỗi cấp từ điển được đọc bằng một action với một khoá, không lệ thuộc dot-path.
+Dot notation có hỗ trợ chính thức của Apple; thay đổi này nhằm cô lập đường đọc,
+không có nghĩa Apple không hỗ trợ tính năng đó.
+
+Kiểm tra dữ liệu nhúng trước I/O; lỗi metadata kèm mã nguồn B/L và giá trị thực tế.
+Catalog JSON hợp lệ nhưng schema/engine không hỗ trợ được sao lưu và khôi phục,
+giữ settings. Interpreter trước chấp nhận literal bọc token quá rộng; phiên bản
+mới ràng buộc định dạng xuất và kiểm tra đường khôi phục/chẩn đoán.
+
+Đây là bản sửa có mục tiêu theo bằng chứng hiện có. Chưa có giá trị metadata
+thực tế từ iPhone tại điểm lỗi nên chưa chứng minh nguyên nhân duy nhất; cần
+người dùng thử beta.2 để xác nhận lỗi khởi tạo đã hết.
 
 ## Kết quả triển khai
 
@@ -51,7 +73,7 @@ Phần nhập số hỗ trợ tập quy tắc được nêu ở đây, không ph
 
 ## Bằng chứng kiểm thử host
 
-- **18 phương thức kiểm thử đạt**, không lỗi/không bỏ qua trong lần chạy có oracle.
+- **21 phương thức kiểm thử đạt**, không lỗi/không bỏ qua trong lần chạy có oracle.
 - **189 kịch bản số điện thoại đạt**, lưu chi tiết input/expected/actual tại `qa/test-results.json`.
 - **1.620 phép so sánh** mẫu số với `phonenumbers==9.0.42` đạt, gồm mẫu nguồn và số giả sinh xác định.
 - Đối chiếu chỉ tính số canonical: parser Google có thể tự bỏ tiền tố sau `+CC`,
@@ -86,8 +108,9 @@ hay cấu hình người dùng. CI có bước dự phòng này nếu máy ký t
 đạt bước validate; cần xem nội dung signing.json thay vì suy luận từ màu xanh của
 job (bước thử ký CLI được cho phép thất bại để vẫn thu thập báo cáo).
 
-**Chưa xác minh nhập tệp trên iPhone.** AEA1 và hash khớp là bằng chứng kiểm tra
-tệp phân phối, không phải bằng chứng toàn bộ tác vụ đã thực thi trên iOS.
+**Beta.1 đã nhập được trên iPhone nhưng lỗi khởi tạo. Beta.2 chưa được thử lại.**
+AEA1 và hash khớp là bằng chứng kiểm tra tệp phân phối, không phải bằng chứng
+toàn bộ tác vụ đã thực thi trên iOS.
 
 Trình validator cũ còn trong môi trường trước không có catalog action đi kèm và
 báo unknown cho cả action chuẩn; kết quả đó không được dùng làm chứng nhận.
