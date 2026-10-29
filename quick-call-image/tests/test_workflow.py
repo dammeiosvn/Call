@@ -39,6 +39,42 @@ def scenario(name, body, expected, region='VN', **kwargs):
 
 
 class NativeWorkflowTests(unittest.TestCase):
+    def test_mixed_nested_loops_use_explicit_items_and_full_depth_indexes(self):
+        for workflow in (NORMAL, TEST):
+            stack = []
+            indexed = []
+            for action in workflow['WFWorkflowActions']:
+                ident, p = action['WFWorkflowActionIdentifier'], action['WFWorkflowActionParameters']
+                if ident.endswith(('repeat.count', 'repeat.each')):
+                    if p['WFControlFlowMode'] == 0:
+                        stack.append(ident)
+                    elif p['WFControlFlowMode'] == 2:
+                        stack.pop()
+                if ident.endswith('getitemfromlist') and p.get('WFItemSpecifier') == 'Item At Index':
+                    attachment = p['WFItemIndex']['Value']['attachmentsByRange']['{0, 1}']
+                    depth = len(stack)
+                    self.assertEqual(attachment['VariableName'], 'Repeat Index' + (' ' + str(depth) if depth > 1 else ''))
+                    self.assertTrue(p['WFInput']['Value']['VariableName'].startswith('LoopItems_'))
+                    indexed.append(depth)
+            self.assertIn(1, indexed)
+            self.assertIn(2, indexed)
+            self.assertIn(4, indexed)
+            self.assertNotIn('Repeat Item', json.dumps(workflow))
+
+    def test_empty_menu_stops_at_origin_with_internal_error_even_with_old_catalog(self):
+        cat = copy.deepcopy(CAT)
+        cat['menus']['main'] = []
+        for language in cat['languages'].values():
+            language.pop('internalError')
+        st = run(TEST, disk=disk(catalog=cat))
+        self.assertEqual(st['menus'], [])
+        self.assertEqual(len(st['alerts']), 1)
+        self.assertIn('QC203', st['alerts'][0])
+        self.assertIn('lỗi xử lý nội bộ', st['alerts'][0])
+        self.assertNotIn('catalog.json', st['alerts'][0])
+        self.assertEqual(st['destinations'], [])
+        self.assertEqual(st['variables']['LoopPass'], 1)
+
     def test_dynamic_repeat_count_uses_substitutable_token_not_content_attachment(self):
         for workflow in (NORMAL, TEST):
             repeats = [a['WFWorkflowActionParameters'] for a in workflow['WFWorkflowActions']

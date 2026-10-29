@@ -1,6 +1,28 @@
 # Báo cáo mã nguồn và kiểm thử
 
-**Dự án:** Quick Call Image · **Phiên bản:** 1.0.0-beta.3 · **Ngày:** 2026-10-29.
+**Dự án:** Quick Call Image · **Phiên bản:** 1.0.0-beta.4 · **Ngày:** 2026-10-29.
+
+## Phản hồi beta.3 và bản sửa beta.4
+
+Ảnh thiết bị xác nhận QC202, Route rỗng, Pass=2. Điều này xác nhận vòng lặp đã
+chạy; giả thuyết Repeat Count không chạy không còn giải thích lỗi hiện tại.
+Route thường được thay bằng ID từ menu; dữ liệu hiện có chưa xác minh menu đã
+hiện hay mục nào được chọn, nên chưa tuyên bố duy nhất nguyên nhân gốc.
+
+Lớp phát mã trước phụ thuộc tên Repeat Item dựa trên số vòng repeat.each, trong
+khi các vòng nằm trong Repeat Count. Beta.4 bỏ hoàn toàn tham chiếu Repeat Item:
+chụp danh sách vào biến riêng, dùng Get Item from List với Repeat Index theo độ
+sâu của tất cả vòng lặp. Apple mô tả Repeat Index 2/3 cho các vòng lồng nhau.
+Cách này áp dụng cả menu và các vòng phân tích số, không chỉ nguồn ảnh.
+
+Thêm kiểm tra trước Choose from List (QC203), sau ánh xạ nhãn sang ID (QC204),
+và đổi QC202 sang thông báo lỗi xử lý nội bộ, không yêu cầu xoá catalog. Bản dịch
+internalError được bổ sung từ dữ liệu nhúng nếu catalog cũ chưa có khoá; giữ các
+chỉnh sửa khác của người dùng. Không ghi ảnh hoặc nội dung OCR vào chẩn đoán.
+
+25 phương thức host đạt, gồm chỉ số lồng 1/2/4, không còn Repeat Item trong graph,
+và menu rỗng dừng tại nguồn với lời báo đúng dù dùng catalog cũ. Chưa có thử nghiệm
+beta.4 trên iPhone. Tài liệu tham chiếu: https://support.apple.com/guide/shortcuts/use-repeat-actions-apdc11deb2c1/ios
 
 ## Phản hồi beta.2 và bản sửa beta.3
 
@@ -91,7 +113,7 @@ Phần nhập số hỗ trợ tập quy tắc được nêu ở đây, không ph
 
 ## Bằng chứng kiểm thử host
 
-- **23 phương thức kiểm thử đạt**, không lỗi/không bỏ qua trong lần chạy có oracle.
+- **25 phương thức kiểm thử đạt**, không lỗi/không bỏ qua trong lần chạy có oracle.
 - **189 kịch bản số điện thoại đạt**, lưu chi tiết input/expected/actual tại `qa/test-results.json`.
 - **1.620 phép so sánh** mẫu số với `phonenumbers==9.0.42` đạt, gồm mẫu nguồn và số giả sinh xác định.
 - Đối chiếu chỉ tính số canonical: parser Google có thể tự bỏ tiền tố sau `+CC`,

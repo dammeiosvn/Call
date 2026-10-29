@@ -1,8 +1,21 @@
 # Hướng dẫn sử dụng Quick Call Image
 
-Phiên bản 1.0.0-beta.3. Khuyến nghị thử trên iOS 18 trở lên. Beta.2 đã qua kiểm
-tra cấu hình trên iPhone nhưng sau đó báo giới hạn thao tác. Beta.3 đang chờ thử
-lại; kết quả mô phỏng không thay thế bước thử thiết bị.
+Phiên bản 1.0.0-beta.4. Khuyến nghị thử trên iOS 18 trở lên. Beta.3 báo QC202
+vì Route rỗng tại lượt 2; beta.4 sửa cách đọc phần tử trong vòng lặp lồng nhau.
+Bản này đang chờ xác minh lại trên iPhone.
+
+## Cập nhật từ beta.3 báo QC202
+
+Thay riêng bản Test cũ bằng bản Test beta.4, giữ thư mục QuickCall. Chạy trực
+tiếp và kiểm tra có menu Chụp ảnh/Chọn ảnh/Cài đặt. Sau đó thử một ảnh có một số
+và một ảnh có nhiều số. Chưa dùng bản có chức năng gọi tới khi Test trả đúng đích.
+Không xoá catalog vì QC202; đây là lỗi điều hướng, không kết luận tệp dữ liệu hỏng.
+Nếu còn lỗi, gửi toàn bộ thông báo có mã và các trường đi kèm:
+
+- QC202: Route không hợp lệ trước khi xử lý.
+- QC203: menu không có hàng nào; dừng ngay trước Choose from List.
+- QC204: nhãn đã chọn không tìm được handler trong bảng ánh xạ.
+- QC201: giới hạn thao tác, kèm lượt thực tế và Route.
 
 ## Cập nhật từ beta.2 báo giới hạn thao tác
 

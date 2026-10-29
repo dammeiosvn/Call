@@ -143,11 +143,19 @@ class Workflow:
         self.action('conditional', {'GroupingIdentifier': g, 'WFControlFlowMode': 2})
 
     def each(self, values):
+        # Repeat Item's display name is fragile in mixed/nested repeat scopes.
+        # Snapshot the list, then address its current element by the native
+        # Repeat Index (whose suffix includes ALL enclosing repeat scopes).
+        list_name = 'LoopItems_' + str(len(self.actions))
+        self.set(list_name, values)
         g = self.uid('repeat')
-        self.action('repeat.each', {'WFInput': ref(values), 'GroupingIdentifier': g, 'WFControlFlowMode': 0})
+        self.action('repeat.each', {'WFInput': ref(variable(list_name)), 'GroupingIdentifier': g, 'WFControlFlowMode': 0})
         self.loops.append(('repeat.each', g))
-        n = sum(kind == 'repeat.each' for kind, _ in self.loops)
-        return g, variable('Repeat Item' + (' ' + str(n) if n > 1 else ''))
+        n = len(self.loops)
+        index = variable('Repeat Index' + (' ' + str(n) if n > 1 else ''))
+        item = self.action('getitemfromlist', {'WFInput': ref(variable(list_name)),
+            'WFItemSpecifier': 'Item At Index', 'WFItemIndex': token(index)}, 'Current loop item')
+        return g, item
 
     def times(self, n):
         g = self.uid('repeat')

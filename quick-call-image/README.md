@@ -1,23 +1,25 @@
-# Quick Call Image · 1.0.0-beta.3
+# Quick Call Image · 1.0.0-beta.4
 
 Phím tắt iOS đọc số điện thoại từ ảnh chụp, thư viện hoặc bảng Chia sẻ. Một số
 hợp lệ sau chuẩn hoá và loại trùng thì chuyển sang tác vụ Gọi; nhiều số thì hiện
 danh sách có icon để chọn. Giao diện dùng cách xưng hô cộng đồng, không cá nhân hoá.
 
-**Trạng thái:** bản thử nghiệm. Beta.2 đã qua kiểm tra metadata và hiện menu
-thiết lập trên iPhone, nhưng sau đó báo giới hạn thao tác. Beta.3 sửa định dạng
-biến trong Repeat Count và thêm chẩn đoán vòng lặp; đang chờ thử lại trên thiết bị.
+**Trạng thái:** bản thử nghiệm. Beta.3 đã chạy vòng lặp nhưng báo QC202 với
+Route rỗng ở lượt 2. Beta.4 lấy phần tử lặp theo chỉ số, chặn menu rỗng/lựa chọn
+không ánh xạ và sửa thông báo lỗi nội bộ; đang chờ thử lại trên iPhone.
 Chỉ tệp đã ký `Quick Call Image.shortcut` và `Quick Call Image Test.shortcut`
 mới là bản cài. Các tệp `.unsigned.bplist` là đầu vào kỹ thuật, không phải bản cài iOS.
 Xem [báo cáo kỹ thuật](docs/TECHNICAL-REPORT.md) và `qa/signing.json` để biết trạng thái chữ ký.
 
-**Hai tệp đã ký để thử trên iPhone:**
+**Lưu ý bản nguồn beta.4 đang chờ ký. Hai tệp dist bên dưới hiện vẫn thuộc bản trước; chưa dùng để thử beta.4.**
+
+**Hai tệp phân phối:**
 
 - [Quick Call Image Test.shortcut](dist/Quick%20Call%20Image%20Test.shortcut) — chỉ hiện số đích, không gọi.
 - [Quick Call Image.shortcut](dist/Quick%20Call%20Image.shortcut) — bản chính có tác vụ gọi.
 
 Đã kiểm tra AEA1, mode anyone và hash tệp với phản hồi của dịch vụ ký. Bạn nên
-thay bản cũ bằng beta.3 và bắt đầu bằng bản Test. Không cần xoá thư mục QuickCall.
+thay bản cũ bằng beta.4 và bắt đầu bằng bản Test. Không cần xoá thư mục QuickCall.
 
 - [Hướng dẫn sử dụng](docs/USER-GUIDE.md)
 - [Báo cáo mã nguồn và kiểm thử](docs/TECHNICAL-REPORT.md)

@@ -38,6 +38,13 @@ def build(dry_run=False):
         w.assign('Language', 'en')
         w.set('Strings', get(v('Catalog'), 'languages.en'))
         w.end_if(present)
+        # Older compatible catalogs lack new diagnostics. Fill only the new
+        # key from bundled translations; preserve the user's other edits.
+        diagnostic_present = w.if_gt(w.count(get(v('Strings'), 'internalError'), 'Characters'))
+        w.otherwise(diagnostic_present)
+        w.set('Strings', put(v('Strings'), 'internalError',
+            get(v('BundledCatalog'), 'languages.', v('Language'), '.internalError')))
+        w.end_if(diagnostic_present)
 
     def read_file(name):
         return a('documentpicker.open', {'WFFile': ref(v('StorageRoot')),
@@ -81,8 +88,22 @@ def build(dry_run=False):
         w.set('RowMap', put(v('RowMap'), w.hash(display), identifier))
 
     def menu_finish(prompt):
+        w.set('LastMenuRows', w.count(v('Rows')))
+        populated = w.if_gt(v('LastMenuRows'))
+        w.otherwise(populated)
+        w.alert(text(label('internalError'), '\n\nQC203 · Menu: ', v('MenuStage'),
+                     ' · Rows: ', v('LastMenuRows')), stop=True)
+        w.end_if(populated)
         selected = text(w.choose(v('Rows'), prompt), name='Selected label')
-        return text(get(v('RowMap'), w.hash(selected)), name='Selected ID')
+        selected_hash = w.hash(selected)
+        result = text(get(v('RowMap'), selected_hash), name='Selected ID')
+        mapped = w.if_gt(w.count(result, 'Characters'))
+        w.otherwise(mapped)
+        w.alert(text(label('internalError'), '\n\nQC204 · Menu: ', v('MenuStage'),
+                     ' · Rows: ', v('LastMenuRows'), ' · Keys: ', w.count(w.keys(v('RowMap'))),
+                     '\nSelection hash: ', selected_hash), stop=True)
+        w.end_if(mapped)
+        return result
 
     def append_menu(group):
         entries = get(v('Catalog'), 'menus.' + group)
@@ -97,11 +118,13 @@ def build(dry_run=False):
         w.end_loop(g)
 
     def menu(group, prompt_key):
+        w.assign('MenuStage', group)
         menu_start()
         append_menu(group)
         return menu_finish(label(prompt_key))
 
     def choose_country(bootstrap=False):
+        w.assign('MenuStage', 'country')
         menu_start()
         loop, item = w.each(get(v('Catalog'), 'countryOrder'))
         w.set('CountryID', item)
@@ -118,6 +141,7 @@ def build(dry_run=False):
         load_strings()
 
     def choose_language():
+        w.assign('MenuStage', 'language')
         menu_start()
         loop, item = w.each(get(v('Catalog'), 'languageOrder'))
         w.set('LanguageID', item)
@@ -248,6 +272,7 @@ def build(dry_run=False):
         'AppVersion': CATALOG['meta']['configVersion']})}, 'QuickCall · Editable Resources')
     w.set('EmbeddedCatalogJSON', get(resources, 'CatalogJSON'))
     w.set('Catalog', a('detect.dictionary', {'WFInput': ref(v('EmbeddedCatalogJSON'))}, 'Bundled catalog'))
+    w.set('BundledCatalog', v('Catalog'))
     w.set('Strings', get(v('Catalog'), 'languages.vi'))
     # Verify the embedded resource before reading any local files. A failure
     # here is a build/import defect, never evidence of a damaged user file.
@@ -322,7 +347,7 @@ def build(dry_run=False):
     w.set('LoopPass', v('Repeat Index'))
     route_ok = w.if_match(v('Route'), r'\A(?:menu|shared|settings|about|cancel|camera|photos|manual|retry|ocr|parse)\z')
     w.otherwise(route_ok)
-    w.alert(text(label('invalidConfig'), '\n\nQC202 · Route: [', v('Route'),
+    w.alert(text(label('internalError'), '\n\nQC202 · Route: [', v('Route'),
                  '] · Pass: ', v('LoopPass')), stop=True)
     w.end_if(route_ok)
     w.set('DefaultProfile', get(v('Catalog'), 'countries.', v('Region')))
@@ -403,6 +428,7 @@ def build(dry_run=False):
     w.end_if(no_unknown)
     w.end_if(one)
     has_numbers = w.if_gt(v('ResultCount'))
+    w.assign('MenuStage', 'results')
     menu_start()
     numbers_loop, number = w.each(v('NumberKeys'))
     w.set('MenuNumber', text(number))

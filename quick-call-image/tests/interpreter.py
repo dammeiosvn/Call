@@ -247,8 +247,14 @@ def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), dis
                     answer = hits[0]
                 result['menus'].append({'prompt': prompt, 'options': [stringify(o) for o in options], 'choice': choice})
             elif ident == 'getitemfromlist':
-                assert p['WFItemSpecifier'] == 'First Item'
-                answer = sequence(evaluate(p['WFInput']))[0]
+                items = sequence(evaluate(p['WFInput']))
+                if p['WFItemSpecifier'] == 'First Item':
+                    answer = items[0]
+                else:
+                    assert p['WFItemSpecifier'] == 'Item At Index'
+                    index = int(stringify(evaluate(p['WFItemIndex'])))
+                    assert 1 <= index <= len(items), ('Invalid one-based loop index', index, len(items))
+                    answer = items[index - 1]
             elif ident == 'takephoto':
                 answer = next(camera)
             elif ident == 'selectphoto':

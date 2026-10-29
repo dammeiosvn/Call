@@ -29,5 +29,23 @@
     "targetedFixVersion": "1.0.0-beta.3",
     "targetedFix": "Repeat Count dynamic value uses substitutable text token; QC201 loop-state and QC202 route diagnostics",
     "iPhoneRetestVerified": false
+  },
+  "beta3Feedback": {
+    "versionReported": "1.0.0-beta.3",
+    "errorCode": "QC202",
+    "route": "",
+    "pass": 2,
+    "repeatLoopExecuted": true,
+    "menuChoiceReported": false,
+    "rootCauseConfirmed": false,
+    "targetedFixVersion": "1.0.0-beta.4",
+    "fixes": [
+      "Explicit indexed loop items using full-depth Repeat Index",
+      "QC203 empty-menu guard",
+      "QC204 unmapped-selection guard",
+      "Internal error message without catalog deletion advice",
+      "Fallback translations for existing catalogs"
+    ],
+    "iPhoneRetestVerified": false
   }
 }
