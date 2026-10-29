@@ -1,16 +1,39 @@
-# Báo cáo mã nguồn · Quick Call Image 1.0.0-beta.5
+# Báo cáo mã nguồn · Quick Call Image 1.0.0-beta.6
 
 ©️ Sentechtipsvn · 2026-10-29
 
-## Bằng chứng thiết bị
+## Bằng chứng thiết bị và bản sửa beta.6
 
-Video beta.4 cho thấy menu nguồn ảnh và OCR nhiều số đã chạy. Đầu video có hai
-lần báo saveFailed; cuối video hộp Show Result chỉ hiện tiêu đề, không hiện số.
-Không suy luận rằng các trường hợp này là thành công. Ảnh mới cho thấy About chạy
-và một số cố định trên bao bì; không đưa ảnh, video hoặc số liên hệ đó vào repo.
+Người dùng đã xác nhận beta.5 Test: setup thành công, nguồn thư viện/Chia sẻ,
+menu gọn, số E.164 ở hộp kết quả khớp số trong ảnh. Hai video bản Gọi cho thấy:
+trước xoá catalog báo lỗi cấu hình; sau xoá có thể setup thành công, chạy lại và
+chọn ảnh nhưng vẫn báo lỗi cấu hình. Không có mã QC101/102/301/302 trong cảnh báo
+sau chọn ảnh. Đây không phải bằng chứng catalog đọc không được.
 
-Beta.5 đang chờ thử lại trên iPhone. Kết quả host không thay thế kiểm tra quyền,
-đồng bộ iCloud, camera/OCR, hiển thị, tốc độ, SIM và cuộc gọi thực tế.
+Source beta.5 có hai nhánh cuối riêng: Test chỉ hiện DialTarget, còn Call chạy
+Get Phone Numbers from Input lần nữa và đòi Count=1; nếu không đạt thì hiện
+invalidConfig có lời khuyên xoá catalog. Hành vi này giải thích một lỗi báo nhầm
+phù hợp video. Video không cho biết đầu ra detector thực tế; chưa đo được giá trị
+đó trên iPhone nên không tuyên bố riêng lỗi bên trong detector đã được chứng minh.
+
+Beta.6 bỏ hẳn lần dò số tự do đó. Cả hai bản cùng thực hiện:
+E.164 validation → Set PhoneTarget với WFPhoneNumberContentItem coercion → Count=1.
+Test hiện đích đã kiểm tra; Call nhận biến PhoneTarget trực tiếp qua WFCallContact.
+Giữ IntentAppDefinition của Phone. Không cắt số từ nhãn, không ghép mã nước lần hai.
+Đích không hợp lệ báo QC401; chuyển kiểu thất bại báo QC402. Không hướng dẫn xoá
+catalog cho hai lỗi này. Mọi nhánh thoát sau khi gọi/hiện Test, không gọi lần hai.
+
+Mô phỏng pipeline cũ với detector trả 0 hoặc 2 giá trị tái hiện cảnh báo catalog
+sai; bản mới không chứa detect.phonenumber, nên không phụ thuộc đầu ra detector.
+Kiểm thử thêm cùng cached catalog beta.5, giữ settings, bỏ riêng catalog rồi dựng
+lại, đường nhiều số và chuyển kiểu iOS thất bại ở cả Test/Call.
+
+33 phương thức host đạt, 209 kịch bản số và 1.640 đối chiếu đạt. Coercion iOS được
+mô phỏng bằng hợp đồng kiểu; không phải xác nhận native conversion hoặc Phone
+intent đã chạy trên thiết bị. Cần người dùng thử beta.6. Không đưa ảnh/video/số
+liên hệ thực của người dùng vào repo.
+
+Tham khảo cấu trúc Call nhận biến: [Cherri contacts.cherri](https://github.com/electrikmilk/cherri/blob/main/actions/contacts.cherri).
 
 ## Thay đổi beta.5
 
@@ -58,7 +81,7 @@ phụ thuộc tên Repeat Item. Guards QC203/204 dừng menu rỗng/không ánh 
 
 ## Kiểm thử
 
-30 phương thức đạt, 209 kịch bản số đạt, 1.640 đối chiếu với phonenumbers 9.0.42
+33 phương thức đạt, 209 kịch bản số đạt, 1.640 đối chiếu với phonenumbers 9.0.42
 đạt. Không bỏ qua oracle. Bao gồm 20 mẫu số cố định, tất cả trường hợp trước,
 khôi phục catalog engine 1, JSON đổi thứ tự/whitespace, settings đọc sai không
 báo thành công, thiết lập dừng không OCR, menu gọn, ngoại vùng giữ +CC và tác giả.
@@ -79,11 +102,8 @@ Nguồn: [Google metadata](https://github.com/google/libphonenumber/tree/8593ab7
 [Apple ký CLI](https://support.apple.com/guide/shortcuts-mac/run-shortcuts-from-the-command-line-apd455c82f02/mac),
 [Shortcuty signing API](https://github.com/Shortcuty/Signing-Server-API-Documentation).
 
-## Trạng thái phân phối beta.5
+## Trạng thái phân phối beta.6
 
-Hai tệp beta.5 đã ký qua API Shortcuty sau khi người dùng cho phép tiếp tục bước
-ký đã nêu. Chỉ đầu vào dựng lại từ nguồn công khai được gửi; không có ảnh/video
-hoặc settings trên thiết bị. Input/output SHA256, AEA1, anyone và size được xác
-minh, xem qa/signing.json. CI giữ đường thử CLI Apple; ký bên thứ ba là thao tác
-thủ công, không tự chạy. Source ZIP chứa mã và đầu vào unsigned, bản cài đã ký tải
-riêng trong dist. Chữ ký không thay thế bước kiểm tra beta.5 trên iPhone.
+Nguồn và kiểm thử đã hoàn tất, bản cài mới đang chờ ký. Báo cáo ký beta.5 giữ
+riêng tại qa/signing-beta5.json. Không gắn lại nhãn beta.5 thành beta.6. Ký sẽ dùng
+nguồn đã công khai; chữ ký không thay thế bước xác minh cuộc gọi thật.

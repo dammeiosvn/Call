@@ -38,7 +38,7 @@ def stringify(value):
 
 
 def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), disk=None, fail_save=False,
-        rewrite_json=False, corrupt_save=None):
+        rewrite_json=False, corrupt_save=None, detected_phone_numbers=None, native_phone_conversion=None):
     actions = workflow['WFWorkflowActions']
     blocks, stack = {}, []
     for i, action in enumerate(actions):
@@ -105,6 +105,11 @@ def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), dis
                     answer = stringify(answer)
                 elif transform['CoercionItemClass'] == 'WFNumberContentItem':
                     answer = float(stringify(answer))
+                elif transform['CoercionItemClass'] == 'WFPhoneNumberContentItem':
+                    answer = stringify(answer)
+                    assert matches(r'\A\+[1-9][0-9]{6,14}\z', answer), 'Only a validated E.164 value can reach Call'
+                    if native_phone_conversion is not None:
+                        answer = native_phone_conversion
                 else:
                     raise AssertionError(transform)
         return answer
@@ -280,7 +285,7 @@ def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), dis
             elif ident == 'detect.phonenumber':
                 raw = stringify(evaluate(p['WFInput']))
                 assert matches(r'\A\+[1-9][0-9]{6,14}\z', raw)
-                answer = [raw]
+                answer = [raw] if detected_phone_numbers is None else detected_phone_numbers
             elif ident == 'com.apple.mobilephone.call':
                 target = stringify(evaluate(p['WFCallContact']))
                 assert matches(r'\A\+[1-9][0-9]{6,14}\z', target)

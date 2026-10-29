@@ -1,6 +1,23 @@
-# Hướng dẫn Quick Call Image · beta.5
+# Hướng dẫn Quick Call Image · beta.6
 
 ©️ Sentechtipsvn
+
+## Sửa lỗi bản Gọi beta.5
+
+Cài thay bản có chức năng gọi bằng beta.6, giữ thư mục QuickCall và các tệp hiện có.
+Cảnh báo trong video xảy ra sau chọn ảnh; không đủ bằng chứng kết luận catalog
+bị hỏng. Bản cũ dùng lại bộ nhận diện số trước Call và báo sai thành lỗi cấu hình.
+Beta.6 bỏ bước đó, dùng số E.164 đã kiểm tra, chuyển sang kiểu Phone Number của iOS
+rồi đưa chính biến đó vào Call. Bản Test mới cũng kiểm tra phép chuyển kiểu này.
+
+- QC401: đích gọi không qua kiểm tra E.164.
+- QC402: iOS không tạo được đúng một giá trị Phone Number từ đích đã kiểm tra.
+- Hai mã này không yêu cầu xoá catalog. Gửi toàn bộ thông báo để chẩn đoán.
+
+Nếu catalog beta.5 và settings còn hợp lệ, không cần thiết lập lại. Nếu trước đó
+đã xoá riêng catalog, phím tắt tạo lại catalog nhưng giữ settings hợp lệ.
+Một số hợp lệ sẽ chuyển sang gọi; nên thử với số có thể chủ động phối hợp kiểm tra.
+Beta.6 vẫn chờ xác nhận cuộc gọi thật trên iPhone.
 
 ## Cài và cập nhật
 
@@ -62,5 +79,5 @@ Cài đặt cho phép đổi vùng/ngôn ngữ hoặc khôi phục dữ liệu g
 - JSON hỏng cú pháp có thể khiến tác vụ iOS dừng trước menu; giữ bản sao rồi xoá riêng tệp hỏng để thiết lập lại.
 - OCR đọc sai: dùng ảnh rõ hơn hoặc nhập/sửa tay; đúng định dạng không chứng minh đúng người nhận cuộc gọi.
 
-Beta.5 cần kiểm tra trên iPhone: thiết lập lần đầu, chạy lại, ảnh một số, ảnh nhiều
+Beta.6 cần kiểm tra trên iPhone: thiết lập lần đầu, chạy lại, ảnh một số, ảnh nhiều
 số, số cố định, Chia sẻ và Giới thiệu. Chưa chuyển sang phát hành cộng đồng chính thức.

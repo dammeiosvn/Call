@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 from catalog import compile_catalog
 from build import build
+from workflow import Workflow, variable, ref
 from interpreter import run, File
 from icu import Pattern, matches
 
@@ -39,6 +40,64 @@ def scenario(name, body, expected, region='VN', **kwargs):
 
 
 class NativeWorkflowTests(unittest.TestCase):
+    def test_legacy_detector_failure_reproduces_wrong_catalog_error_but_new_call_does_not_depend_on_it(self):
+        # Reproduce the beta.5 failure mode without claiming that the video's
+        # unseen detector output was measured on the device.
+        old = Workflow('Legacy call gate')
+        old.assign('DialTarget', '+84912345678')
+        found = old.action('detect.phonenumber', {'WFInput': ref(variable('DialTarget'))})
+        one = old.if_eq(old.count(found), '1')
+        old.action('com.apple.mobilephone.call', {'WFCallContact': ref(old.first(found))})
+        old.otherwise(one)
+        old.alert('Invalid configuration. Delete catalog.json.', stop=True)
+        old.end_if(one)
+        for detector in ([], ['+84912345678', '+84912345678']):
+            failed = run(old.header(), detected_phone_numbers=detector)
+            self.assertEqual(failed['destinations'], [])
+            self.assertIn('catalog.json', failed['alerts'][0])
+            fixed = run(NORMAL, disk=disk(), incoming=image('0912345678'), detected_phone_numbers=detector)
+            self.assertEqual(fixed['destinations'], ['+84912345678'])
+            self.assertEqual(fixed['alerts'], [])
+
+    def test_test_and_call_share_native_conversion_and_stop_with_precise_error(self):
+        for workflow in (NORMAL, TEST):
+            self.assertFalse(any(a['WFWorkflowActionIdentifier'].endswith('detect.phonenumber')
+                                 for a in workflow['WFWorkflowActions']))
+            conversions = [a['WFWorkflowActionParameters']['WFInput']['Value']
+                           for a in workflow['WFWorkflowActions']
+                           if a['WFWorkflowActionIdentifier'].endswith('setvariable')
+                           and a['WFWorkflowActionParameters']['WFVariableName'] == 'PhoneTarget']
+            self.assertEqual(len(conversions), 2)
+            for conversion in conversions:
+                self.assertEqual(conversion['VariableName'], 'DialTarget')
+                self.assertEqual(conversion['Aggrandizements'][0]['CoercionItemClass'], 'WFPhoneNumberContentItem')
+            failure = run(workflow, disk=disk(), incoming=image('0912345678'), native_phone_conversion=[])
+            self.assertEqual(failure['destinations'], [])
+            self.assertIn('QC402', failure['alerts'][0])
+            self.assertNotIn('catalog.json', failure['alerts'][0])
+        for action in NORMAL['WFWorkflowActions']:
+            if action['WFWorkflowActionIdentifier'] == 'com.apple.mobilephone.call':
+                self.assertEqual(action['WFWorkflowActionParameters']['WFCallContact']['Value']['VariableName'], 'PhoneTarget')
+
+    def test_call_reuses_beta5_catalog_and_settings_without_reconfiguration(self):
+        catalog = copy.deepcopy(CAT)
+        catalog['meta']['configVersion'] = '1.0.0-beta.5'
+        d = disk(catalog=catalog)
+        single = run(NORMAL, disk=d, incoming=image('0912345678'))
+        self.assertEqual(single['destinations'], ['+84912345678'])
+        self.assertEqual(single['writes'], [])
+        self.assertEqual(single['menus'], [])
+        multiple = run(NORMAL, disk=d, incoming=image('0912345678\n0987654321'), menus=['+84987654321'])
+        self.assertEqual(multiple['destinations'], ['+84987654321'])
+        self.assertEqual(multiple['writes'], [])
+        self.assertEqual(multiple['disk'], d)
+        d.pop('QuickCall/catalog.json')
+        rebuilt = run(NORMAL, disk=d, incoming=image('0912345678'))
+        self.assertEqual(rebuilt['destinations'], ['+84912345678'])
+        self.assertEqual(rebuilt['menus'], [])
+        self.assertEqual(rebuilt['disk']['QuickCall/settings.json'], d['QuickCall/settings.json'])
+        self.assertEqual(rebuilt['writes'], ['QuickCall/catalog.json'])
+
     def test_json_readback_accepts_reordered_equivalent_data_but_blocks_wrong_values(self):
         st = run(TEST, incoming=image('0912345678'), menus=['VN', 'vi'], rewrite_json=True)
         self.assertEqual(st['alerts'], [CAT['languages']['vi']['setupComplete']])

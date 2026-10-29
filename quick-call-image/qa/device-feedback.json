@@ -64,5 +64,24 @@
     ],
     "targetedFixVersion": "1.0.0-beta.5",
     "iPhoneRetestVerified": false
+  },
+  "beta5CallVideos": {
+    "versionReported": "1.0.0-beta.5",
+    "testVariantVerified": [
+      "setup success",
+      "library/share source",
+      "clean menu",
+      "E164 preview matches source"
+    ],
+    "callVariantObserved": [
+      "generic invalid configuration message",
+      "setup succeeds after deletion",
+      "photo selection on rerun followed by same generic message"
+    ],
+    "catalogDamageProven": false,
+    "detectorOutputOnDeviceMeasured": false,
+    "sourceIssue": "Redundant phone detection before Call maps non-single result to invalidConfig",
+    "targetedFixVersion": "1.0.0-beta.6",
+    "nativeCallRetestVerified": false
   }
 }

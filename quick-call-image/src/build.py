@@ -178,23 +178,25 @@ def build(dry_run=False):
     def finish_call(target):
         w.set('DialTarget', target)
         eligible = w.if_match(v('DialTarget'), get(v('Catalog'), 'behavior.e164Pattern'))
+        w.set('PhoneTarget', ref(v('DialTarget'), 'WFPhoneNumberContentItem')['Value'])
+        native_ready = w.if_eq(w.count(v('PhoneTarget')), '1')
         if dry_run:
             w.set('TestResultText', text(label('testResult'), '\n\n', v('DialTarget'), name='Full test destination'))
             a('alert', {'WFAlertActionTitle': 'Quick Call Image · Test',
                 'WFAlertActionMessage': token(v('TestResultText')),
                 'WFAlertActionCancelButtonShown': False}, 'Test destination; no call')
         else:
-            phone = a('detect.phonenumber', {'WFInput': ref(v('DialTarget'))}, 'Dialable phone number')
-            one = w.if_eq(w.count(phone), '1')
-            # Phone intent gets the validated international number, never a menu label/contact name.
-            a('com.apple.mobilephone.call', {'WFCallContact': ref(w.first(phone)),
+            # DialTarget is already the unique validated E.164 destination.
+            # Do not run locale-dependent free-text phone detection again.
+            # Bind that exact target as a native phone-number value for Call.
+            a('com.apple.mobilephone.call', {'WFCallContact': ref(v('PhoneTarget')),
                 'IntentAppDefinition': {'BundleIdentifier': 'com.apple.TelephonyUtilities.PhoneIntentHandler'}}, 'Call selected number')
-            w.otherwise(one)
-            w.alert(label('invalidConfig'), stop=True)
-            w.end_if(one)
         a('exit')
+        w.otherwise(native_ready)
+        w.alert(text(label('internalError'), '\n\nQC402 · Phone conversion failed\n', v('DialTarget')), stop=True)
+        w.end_if(native_ready)
         w.otherwise(eligible)
-        w.alert(label('invalidConfig'), stop=True)
+        w.alert(text(label('internalError'), '\n\nQC401 · Invalid call destination'), stop=True)
         w.end_if(eligible)
 
     def validate_nsn(profile, nsn):
