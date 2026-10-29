@@ -1,0 +1,182 @@
+"""Small deterministic emitter for Apple Shortcuts plist, not a runtime dependency."""
+import json
+import uuid
+
+NS = uuid.UUID('314138ae-5a74-4bdd-bd2b-7c3798f50685')
+
+
+def variable(name):
+    return {'Type': 'Variable', 'VariableName': name}
+
+
+def ref(value, coercion=None):
+    value = dict(value)
+    if coercion:
+        value['Aggrandizements'] = value.get('Aggrandizements', []) + [
+            {'Type': 'WFCoercionVariableAggrandizement', 'CoercionItemClass': coercion}]
+    return {'Value': value, 'WFSerializationType': 'WFTextTokenAttachment'}
+
+
+def token(*parts):
+    text, spans = '', {}
+    for part in parts:
+        if isinstance(part, dict):
+            # Apple's ranges are UTF-16 offsets. Emoji are often two UTF-16 units.
+            spans['{%d, 1}' % (len(text.encode('utf-16-le')) // 2)] = part
+            text += '\ufffc'
+        else:
+            text += str(part)
+    return {'Value': {'string': text, 'attachmentsByRange': spans},
+            'WFSerializationType': 'WFTextTokenString'}
+
+
+def dictionary_value(items):
+    return {'Value': {'WFDictionaryFieldValueItems': [
+        {'WFItemType': 0, 'WFKey': token(k), 'WFValue': token(v)} for k, v in items.items()
+    ]}, 'WFSerializationType': 'WFDictionaryFieldValue'}
+
+
+class Workflow:
+    def __init__(self, name):
+        self.name = name
+        self.actions = []
+        self.loops = []
+
+    def uid(self, kind):
+        return str(uuid.uuid5(NS, '%s:%d:%s' % (self.name, len(self.actions), kind))).upper()
+
+    def action(self, kind, params=None, name=None):
+        identifier = kind if '.' in kind and kind.startswith('com.') else 'is.workflow.actions.' + kind
+        p = dict(params or {})
+        p['UUID'] = self.uid(kind)
+        if name:
+            p['CustomOutputName'] = name
+        self.actions.append({'WFWorkflowActionIdentifier': identifier, 'WFWorkflowActionParameters': p})
+        return {'Type': 'ActionOutput', 'OutputUUID': p['UUID'], 'OutputName': name or kind}
+
+    def text(self, *parts, name='Text'):
+        return self.action('gettext', {'WFTextActionText': token(*parts)}, name)
+
+    def set(self, name, value):
+        self.action('setvariable', {'WFInput': ref(value), 'WFVariableName': name})
+        return variable(name)
+
+    def assign(self, name, *parts):
+        return self.set(name, self.text(*parts, name=name))
+
+    def get(self, source, *key, name='Dictionary value'):
+        return self.action('getvalueforkey', {'WFInput': ref(source),
+            'WFGetDictionaryValueType': 'Value', 'WFDictionaryKey': token(*key)}, name)
+
+    def keys(self, source):
+        return self.action('getvalueforkey', {'WFInput': ref(source), 'WFGetDictionaryValueType': 'All Keys'}, 'Keys')
+
+    def put(self, source, key, value):
+        return self.action('setvalueforkey', {'WFDictionary': ref(source),
+            'WFDictionaryKey': token(key), 'WFDictionaryValue': token(value)}, 'Updated dictionary')
+
+    def empty_dict(self, name):
+        return self.set(name, self.action('dictionary', {'WFItems': dictionary_value({})}, name))
+
+    def empty_list(self, name):
+        return self.set(name, self.action('list', {'WFItems': []}, name))
+
+    def append(self, name, value):
+        self.action('appendvariable', {'WFVariableName': name, 'WFInput': ref(value)})
+
+    def count(self, value, kind='Items'):
+        return self.action('count', {'Input': ref(value), 'WFCountType': kind}, 'Count ' + kind)
+
+    def match(self, value, *pattern):
+        return self.action('text.match', {'text': token(value),
+            'WFMatchTextPattern': token(*pattern), 'WFMatchTextCaseSensitive': True}, 'Matches')
+
+    def replace(self, value, pattern, replacement='', regex=True):
+        return self.action('text.replace', {'WFInput': token(value),
+            'WFReplaceTextFind': token(pattern), 'WFReplaceTextReplace': token(replacement),
+            'WFReplaceTextRegularExpression': regex, 'WFReplaceTextCaseSensitive': True}, 'Normalized text')
+
+    def if_eq(self, value, *other):
+        # Materialize Text before If: don't let a Dictionary Value's inferred type
+        # change the condition editor/runtime comparison after importing on iOS.
+        value = self.text(value, name='Condition text')
+        g = self.uid('if')
+        self.action('conditional', {'WFInput': {'Type': 'Variable', 'Variable': ref(value, 'WFStringContentItem')},
+            'WFCondition': 4, 'WFConditionalActionString': token(*other),
+            'GroupingIdentifier': g, 'WFControlFlowMode': 0})
+        return g
+
+    def if_gt(self, value, n=0):
+        g = self.uid('if')
+        self.action('conditional', {'WFInput': {'Type': 'Variable', 'Variable': ref(value, 'WFNumberContentItem')},
+            'WFCondition': 2, 'WFNumberValue': token(n),
+            'GroupingIdentifier': g, 'WFControlFlowMode': 0})
+        return g
+
+    def if_match(self, value, *pattern):
+        return self.if_gt(self.count(self.match(value, *pattern)))
+
+    def otherwise(self, g):
+        self.action('conditional', {'GroupingIdentifier': g, 'WFControlFlowMode': 1})
+
+    def end_if(self, g):
+        self.action('conditional', {'GroupingIdentifier': g, 'WFControlFlowMode': 2})
+
+    def each(self, values):
+        g = self.uid('repeat')
+        self.action('repeat.each', {'WFInput': ref(values), 'GroupingIdentifier': g, 'WFControlFlowMode': 0})
+        self.loops.append(('repeat.each', g))
+        n = sum(kind == 'repeat.each' for kind, _ in self.loops)
+        return g, variable('Repeat Item' + (' ' + str(n) if n > 1 else ''))
+
+    def times(self, n):
+        g = self.uid('repeat')
+        self.action('repeat.count', {'WFRepeatCount': ref(n) if isinstance(n, dict) else n,
+            'GroupingIdentifier': g, 'WFControlFlowMode': 0})
+        self.loops.append(('repeat.count', g))
+        return g
+
+    def end_loop(self, g):
+        kind, identifier = self.loops.pop()
+        assert identifier == g
+        self.action(kind, {'GroupingIdentifier': g, 'WFControlFlowMode': 2})
+
+    def first(self, values):
+        return self.action('getitemfromlist', {'WFInput': ref(values), 'WFItemSpecifier': 'First Item'}, 'First item')
+
+    def choose(self, values, prompt):
+        return self.action('choosefromlist', {'WFInput': ref(values),
+            'WFChooseFromListActionPrompt': token(prompt), 'WFChooseFromListActionSelectMultiple': False,
+            'WFChooseFromListActionSelectAll': False}, 'Selected menu row')
+
+    def hash(self, value):
+        return self.action('hash', {'WFInput': ref(value), 'WFHashType': 'SHA256'}, 'Row key')
+
+    def label(self, key):
+        return {'Type': 'Variable', 'VariableName': 'Strings', 'Aggrandizements': [
+            {'Type': 'WFDictionaryValueVariableAggrandizement', 'DictionaryKey': key}]}
+
+    def alert(self, message, stop=False):
+        self.action('alert', {'WFAlertActionTitle': 'Quick Call Image',
+            'WFAlertActionMessage': token(message), 'WFAlertActionCancelButtonShown': False})
+        if stop:
+            self.action('exit')
+
+    def notify(self, key):
+        self.action('notification', {'WFNotificationActionTitle': 'Quick Call Image',
+            'WFNotificationActionBody': token(self.label(key)), 'WFNotificationActionSound': False})
+
+    def named_json(self, value, filename):
+        return self.action('setitemname', {'WFInput': ref(value, 'WFStringContentItem'),
+            'WFName': filename, 'WFDontIncludeFileExtension': False}, filename)
+
+    def header(self):
+        assert not self.loops
+        return {'WFWorkflowName': self.name, 'WFWorkflowActions': self.actions,
+            'WFWorkflowClientVersion': '3036.0.4.2', 'WFWorkflowMinimumClientVersion': 900,
+            'WFWorkflowMinimumClientVersionString': '900',
+            'WFWorkflowIcon': {'WFWorkflowIconStartColor': 4292093695, 'WFWorkflowIconGlyphNumber': 59509},
+            'WFWorkflowImportQuestions': [], 'WFWorkflowInputContentItemClasses': ['WFImageContentItem'],
+            'WFWorkflowOutputContentItemClasses': [], 'WFWorkflowTypes': ['ActionExtension'],
+            'WFQuickActionSurfaces': [], 'WFWorkflowHasShortcutInputVariables': True,
+            'WFWorkflowNoInputBehavior': {}}

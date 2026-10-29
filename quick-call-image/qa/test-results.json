@@ -1,0 +1,2155 @@
+{
+  "testMethods": 17,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "numberScenarios": 189,
+  "passedNumberScenarios": 189,
+  "cases": [
+    {
+      "id": "VN/national",
+      "region": "VN",
+      "input": "Phone: 0912345678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "VN/bareNSN",
+      "region": "VN",
+      "input": "Phone: 912345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "VN/international",
+      "region": "VN",
+      "input": "Phone: +84912345678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "VN/grouped",
+      "region": "VN",
+      "input": "Phone: +84 912 345678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "VN/dots",
+      "region": "VN",
+      "input": "Phone: 0912.345.678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "VN/duplicate",
+      "region": "VN",
+      "input": "Phone: 0912345678\n+84912345678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "VN/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +84912345678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "VN/optionalTrunk",
+      "region": "VN",
+      "input": "Phone: +84 (0) 912345678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TH/national",
+      "region": "TH",
+      "input": "Phone: 0812345678",
+      "expected": [
+        "+66812345678"
+      ],
+      "actual": [
+        "+66812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TH/bareNSN",
+      "region": "TH",
+      "input": "Phone: 812345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "TH/international",
+      "region": "TH",
+      "input": "Phone: +66812345678",
+      "expected": [
+        "+66812345678"
+      ],
+      "actual": [
+        "+66812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TH/grouped",
+      "region": "TH",
+      "input": "Phone: +66 812 345678",
+      "expected": [
+        "+66812345678"
+      ],
+      "actual": [
+        "+66812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TH/dots",
+      "region": "TH",
+      "input": "Phone: 0812.345.678",
+      "expected": [
+        "+66812345678"
+      ],
+      "actual": [
+        "+66812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TH/duplicate",
+      "region": "TH",
+      "input": "Phone: 0812345678\n+66812345678",
+      "expected": [
+        "+66812345678"
+      ],
+      "actual": [
+        "+66812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TH/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +66812345678",
+      "expected": [
+        "+66812345678"
+      ],
+      "actual": [
+        "+66812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TH/optionalTrunk",
+      "region": "TH",
+      "input": "Phone: +66 (0) 812345678",
+      "expected": [
+        "+66812345678"
+      ],
+      "actual": [
+        "+66812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "SG/national",
+      "region": "SG",
+      "input": "Phone: 81234567",
+      "expected": [
+        "+6581234567"
+      ],
+      "actual": [
+        "+6581234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "SG/bareNSN",
+      "region": "SG",
+      "input": "Phone: 81234567",
+      "expected": [
+        "+6581234567"
+      ],
+      "actual": [
+        "+6581234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "SG/international",
+      "region": "SG",
+      "input": "Phone: +6581234567",
+      "expected": [
+        "+6581234567"
+      ],
+      "actual": [
+        "+6581234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "SG/grouped",
+      "region": "SG",
+      "input": "Phone: +65 812 34567",
+      "expected": [
+        "+6581234567"
+      ],
+      "actual": [
+        "+6581234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "SG/dots",
+      "region": "SG",
+      "input": "Phone: 812.345.67",
+      "expected": [
+        "+6581234567"
+      ],
+      "actual": [
+        "+6581234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "SG/duplicate",
+      "region": "SG",
+      "input": "Phone: 81234567\n+6581234567",
+      "expected": [
+        "+6581234567"
+      ],
+      "actual": [
+        "+6581234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "SG/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +6581234567",
+      "expected": [
+        "+6581234567"
+      ],
+      "actual": [
+        "+6581234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "MY/national",
+      "region": "MY",
+      "input": "Phone: 0123456789",
+      "expected": [
+        "+60123456789"
+      ],
+      "actual": [
+        "+60123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "MY/bareNSN",
+      "region": "MY",
+      "input": "Phone: 123456789",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "MY/international",
+      "region": "MY",
+      "input": "Phone: +60123456789",
+      "expected": [
+        "+60123456789"
+      ],
+      "actual": [
+        "+60123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "MY/grouped",
+      "region": "MY",
+      "input": "Phone: +60 123 456789",
+      "expected": [
+        "+60123456789"
+      ],
+      "actual": [
+        "+60123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "MY/dots",
+      "region": "MY",
+      "input": "Phone: 0123.456.789",
+      "expected": [
+        "+60123456789"
+      ],
+      "actual": [
+        "+60123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "MY/duplicate",
+      "region": "MY",
+      "input": "Phone: 0123456789\n+60123456789",
+      "expected": [
+        "+60123456789"
+      ],
+      "actual": [
+        "+60123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "MY/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +60123456789",
+      "expected": [
+        "+60123456789"
+      ],
+      "actual": [
+        "+60123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "MY/optionalTrunk",
+      "region": "MY",
+      "input": "Phone: +60 (0) 123456789",
+      "expected": [
+        "+60123456789"
+      ],
+      "actual": [
+        "+60123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "ID/national",
+      "region": "ID",
+      "input": "Phone: 0812345678",
+      "expected": [
+        "+62812345678"
+      ],
+      "actual": [
+        "+62812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "ID/bareNSN",
+      "region": "ID",
+      "input": "Phone: 812345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "ID/international",
+      "region": "ID",
+      "input": "Phone: +62812345678",
+      "expected": [
+        "+62812345678"
+      ],
+      "actual": [
+        "+62812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "ID/grouped",
+      "region": "ID",
+      "input": "Phone: +62 812 345678",
+      "expected": [
+        "+62812345678"
+      ],
+      "actual": [
+        "+62812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "ID/dots",
+      "region": "ID",
+      "input": "Phone: 0812.345.678",
+      "expected": [
+        "+62812345678"
+      ],
+      "actual": [
+        "+62812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "ID/duplicate",
+      "region": "ID",
+      "input": "Phone: 0812345678\n+62812345678",
+      "expected": [
+        "+62812345678"
+      ],
+      "actual": [
+        "+62812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "ID/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +62812345678",
+      "expected": [
+        "+62812345678"
+      ],
+      "actual": [
+        "+62812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "ID/optionalTrunk",
+      "region": "ID",
+      "input": "Phone: +62 (0) 812345678",
+      "expected": [
+        "+62812345678"
+      ],
+      "actual": [
+        "+62812345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "PH/national",
+      "region": "PH",
+      "input": "Phone: 09051234567",
+      "expected": [
+        "+639051234567"
+      ],
+      "actual": [
+        "+639051234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "PH/bareNSN",
+      "region": "PH",
+      "input": "Phone: 9051234567",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "PH/international",
+      "region": "PH",
+      "input": "Phone: +639051234567",
+      "expected": [
+        "+639051234567"
+      ],
+      "actual": [
+        "+639051234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "PH/grouped",
+      "region": "PH",
+      "input": "Phone: +63 905 1234567",
+      "expected": [
+        "+639051234567"
+      ],
+      "actual": [
+        "+639051234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "PH/dots",
+      "region": "PH",
+      "input": "Phone: 0905.123.4567",
+      "expected": [
+        "+639051234567"
+      ],
+      "actual": [
+        "+639051234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "PH/duplicate",
+      "region": "PH",
+      "input": "Phone: 09051234567\n+639051234567",
+      "expected": [
+        "+639051234567"
+      ],
+      "actual": [
+        "+639051234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "PH/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +639051234567",
+      "expected": [
+        "+639051234567"
+      ],
+      "actual": [
+        "+639051234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "PH/optionalTrunk",
+      "region": "PH",
+      "input": "Phone: +63 (0) 9051234567",
+      "expected": [
+        "+639051234567"
+      ],
+      "actual": [
+        "+639051234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KH/national",
+      "region": "KH",
+      "input": "Phone: 091234567",
+      "expected": [
+        "+85591234567"
+      ],
+      "actual": [
+        "+85591234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KH/bareNSN",
+      "region": "KH",
+      "input": "Phone: 91234567",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "KH/international",
+      "region": "KH",
+      "input": "Phone: +85591234567",
+      "expected": [
+        "+85591234567"
+      ],
+      "actual": [
+        "+85591234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KH/grouped",
+      "region": "KH",
+      "input": "Phone: +855 912 34567",
+      "expected": [
+        "+85591234567"
+      ],
+      "actual": [
+        "+85591234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KH/dots",
+      "region": "KH",
+      "input": "Phone: 0912.345.67",
+      "expected": [
+        "+85591234567"
+      ],
+      "actual": [
+        "+85591234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KH/duplicate",
+      "region": "KH",
+      "input": "Phone: 091234567\n+85591234567",
+      "expected": [
+        "+85591234567"
+      ],
+      "actual": [
+        "+85591234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KH/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +85591234567",
+      "expected": [
+        "+85591234567"
+      ],
+      "actual": [
+        "+85591234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KH/optionalTrunk",
+      "region": "KH",
+      "input": "Phone: +855 (0) 91234567",
+      "expected": [
+        "+85591234567"
+      ],
+      "actual": [
+        "+85591234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "LA/national",
+      "region": "LA",
+      "input": "Phone: 02023123456",
+      "expected": [
+        "+8562023123456"
+      ],
+      "actual": [
+        "+8562023123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "LA/bareNSN",
+      "region": "LA",
+      "input": "Phone: 2023123456",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "LA/international",
+      "region": "LA",
+      "input": "Phone: +8562023123456",
+      "expected": [
+        "+8562023123456"
+      ],
+      "actual": [
+        "+8562023123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "LA/grouped",
+      "region": "LA",
+      "input": "Phone: +856 202 3123456",
+      "expected": [
+        "+8562023123456"
+      ],
+      "actual": [
+        "+8562023123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "LA/dots",
+      "region": "LA",
+      "input": "Phone: 0202.312.3456",
+      "expected": [
+        "+8562023123456"
+      ],
+      "actual": [
+        "+8562023123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "LA/duplicate",
+      "region": "LA",
+      "input": "Phone: 02023123456\n+8562023123456",
+      "expected": [
+        "+8562023123456"
+      ],
+      "actual": [
+        "+8562023123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "LA/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +8562023123456",
+      "expected": [
+        "+8562023123456"
+      ],
+      "actual": [
+        "+8562023123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "LA/optionalTrunk",
+      "region": "LA",
+      "input": "Phone: +856 (0) 2023123456",
+      "expected": [
+        "+8562023123456"
+      ],
+      "actual": [
+        "+8562023123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CN/national",
+      "region": "CN",
+      "input": "Phone: 013123456789",
+      "expected": [
+        "+8613123456789"
+      ],
+      "actual": [
+        "+8613123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CN/bareNSN",
+      "region": "CN",
+      "input": "Phone: 13123456789",
+      "expected": [
+        "+8613123456789"
+      ],
+      "actual": [
+        "+8613123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CN/international",
+      "region": "CN",
+      "input": "Phone: +8613123456789",
+      "expected": [
+        "+8613123456789"
+      ],
+      "actual": [
+        "+8613123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CN/grouped",
+      "region": "CN",
+      "input": "Phone: +86 131 23456789",
+      "expected": [
+        "+8613123456789"
+      ],
+      "actual": [
+        "+8613123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CN/dots",
+      "region": "CN",
+      "input": "Phone: 0131.234.56789",
+      "expected": [
+        "+8613123456789"
+      ],
+      "actual": [
+        "+8613123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CN/duplicate",
+      "region": "CN",
+      "input": "Phone: 013123456789\n+8613123456789",
+      "expected": [
+        "+8613123456789"
+      ],
+      "actual": [
+        "+8613123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CN/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +8613123456789",
+      "expected": [
+        "+8613123456789"
+      ],
+      "actual": [
+        "+8613123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CN/optionalTrunk",
+      "region": "CN",
+      "input": "Phone: +86 (0) 13123456789",
+      "expected": [
+        "+8613123456789"
+      ],
+      "actual": [
+        "+8613123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TW/national",
+      "region": "TW",
+      "input": "Phone: 0912345678",
+      "expected": [
+        "+886912345678"
+      ],
+      "actual": [
+        "+886912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TW/bareNSN",
+      "region": "TW",
+      "input": "Phone: 912345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "TW/international",
+      "region": "TW",
+      "input": "Phone: +886912345678",
+      "expected": [
+        "+886912345678"
+      ],
+      "actual": [
+        "+886912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TW/grouped",
+      "region": "TW",
+      "input": "Phone: +886 912 345678",
+      "expected": [
+        "+886912345678"
+      ],
+      "actual": [
+        "+886912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TW/dots",
+      "region": "TW",
+      "input": "Phone: 0912.345.678",
+      "expected": [
+        "+886912345678"
+      ],
+      "actual": [
+        "+886912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TW/duplicate",
+      "region": "TW",
+      "input": "Phone: 0912345678\n+886912345678",
+      "expected": [
+        "+886912345678"
+      ],
+      "actual": [
+        "+886912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TW/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +886912345678",
+      "expected": [
+        "+886912345678"
+      ],
+      "actual": [
+        "+886912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TW/optionalTrunk",
+      "region": "TW",
+      "input": "Phone: +886 (0) 912345678",
+      "expected": [
+        "+886912345678"
+      ],
+      "actual": [
+        "+886912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "HK/national",
+      "region": "HK",
+      "input": "Phone: 51234567",
+      "expected": [
+        "+85251234567"
+      ],
+      "actual": [
+        "+85251234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "HK/bareNSN",
+      "region": "HK",
+      "input": "Phone: 51234567",
+      "expected": [
+        "+85251234567"
+      ],
+      "actual": [
+        "+85251234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "HK/international",
+      "region": "HK",
+      "input": "Phone: +85251234567",
+      "expected": [
+        "+85251234567"
+      ],
+      "actual": [
+        "+85251234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "HK/grouped",
+      "region": "HK",
+      "input": "Phone: +852 512 34567",
+      "expected": [
+        "+85251234567"
+      ],
+      "actual": [
+        "+85251234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "HK/dots",
+      "region": "HK",
+      "input": "Phone: 512.345.67",
+      "expected": [
+        "+85251234567"
+      ],
+      "actual": [
+        "+85251234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "HK/duplicate",
+      "region": "HK",
+      "input": "Phone: 51234567\n+85251234567",
+      "expected": [
+        "+85251234567"
+      ],
+      "actual": [
+        "+85251234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "HK/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +85251234567",
+      "expected": [
+        "+85251234567"
+      ],
+      "actual": [
+        "+85251234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "JP/national",
+      "region": "JP",
+      "input": "Phone: 09012345678",
+      "expected": [
+        "+819012345678"
+      ],
+      "actual": [
+        "+819012345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "JP/bareNSN",
+      "region": "JP",
+      "input": "Phone: 9012345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "JP/international",
+      "region": "JP",
+      "input": "Phone: +819012345678",
+      "expected": [
+        "+819012345678"
+      ],
+      "actual": [
+        "+819012345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "JP/grouped",
+      "region": "JP",
+      "input": "Phone: +81 901 2345678",
+      "expected": [
+        "+819012345678"
+      ],
+      "actual": [
+        "+819012345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "JP/dots",
+      "region": "JP",
+      "input": "Phone: 0901.234.5678",
+      "expected": [
+        "+819012345678"
+      ],
+      "actual": [
+        "+819012345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "JP/duplicate",
+      "region": "JP",
+      "input": "Phone: 09012345678\n+819012345678",
+      "expected": [
+        "+819012345678"
+      ],
+      "actual": [
+        "+819012345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "JP/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +819012345678",
+      "expected": [
+        "+819012345678"
+      ],
+      "actual": [
+        "+819012345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "JP/optionalTrunk",
+      "region": "JP",
+      "input": "Phone: +81 (0) 9012345678",
+      "expected": [
+        "+819012345678"
+      ],
+      "actual": [
+        "+819012345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KR/national",
+      "region": "KR",
+      "input": "Phone: 01020000000",
+      "expected": [
+        "+821020000000"
+      ],
+      "actual": [
+        "+821020000000"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KR/bareNSN",
+      "region": "KR",
+      "input": "Phone: 1020000000",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "KR/international",
+      "region": "KR",
+      "input": "Phone: +821020000000",
+      "expected": [
+        "+821020000000"
+      ],
+      "actual": [
+        "+821020000000"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KR/grouped",
+      "region": "KR",
+      "input": "Phone: +82 102 0000000",
+      "expected": [
+        "+821020000000"
+      ],
+      "actual": [
+        "+821020000000"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KR/dots",
+      "region": "KR",
+      "input": "Phone: 0102.000.0000",
+      "expected": [
+        "+821020000000"
+      ],
+      "actual": [
+        "+821020000000"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KR/duplicate",
+      "region": "KR",
+      "input": "Phone: 01020000000\n+821020000000",
+      "expected": [
+        "+821020000000"
+      ],
+      "actual": [
+        "+821020000000"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KR/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +821020000000",
+      "expected": [
+        "+821020000000"
+      ],
+      "actual": [
+        "+821020000000"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KR/optionalTrunk",
+      "region": "KR",
+      "input": "Phone: +82 (0) 1020000000",
+      "expected": [
+        "+821020000000"
+      ],
+      "actual": [
+        "+821020000000"
+      ],
+      "passed": true
+    },
+    {
+      "id": "IN/national",
+      "region": "IN",
+      "input": "Phone: 08123456789",
+      "expected": [
+        "+918123456789"
+      ],
+      "actual": [
+        "+918123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "IN/bareNSN",
+      "region": "IN",
+      "input": "Phone: 8123456789",
+      "expected": [
+        "+918123456789"
+      ],
+      "actual": [
+        "+918123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "IN/international",
+      "region": "IN",
+      "input": "Phone: +918123456789",
+      "expected": [
+        "+918123456789"
+      ],
+      "actual": [
+        "+918123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "IN/grouped",
+      "region": "IN",
+      "input": "Phone: +91 812 3456789",
+      "expected": [
+        "+918123456789"
+      ],
+      "actual": [
+        "+918123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "IN/dots",
+      "region": "IN",
+      "input": "Phone: 0812.345.6789",
+      "expected": [
+        "+918123456789"
+      ],
+      "actual": [
+        "+918123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "IN/duplicate",
+      "region": "IN",
+      "input": "Phone: 08123456789\n+918123456789",
+      "expected": [
+        "+918123456789"
+      ],
+      "actual": [
+        "+918123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "IN/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +918123456789",
+      "expected": [
+        "+918123456789"
+      ],
+      "actual": [
+        "+918123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "IN/optionalTrunk",
+      "region": "IN",
+      "input": "Phone: +91 (0) 8123456789",
+      "expected": [
+        "+918123456789"
+      ],
+      "actual": [
+        "+918123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "AU/national",
+      "region": "AU",
+      "input": "Phone: 0412345678",
+      "expected": [
+        "+61412345678"
+      ],
+      "actual": [
+        "+61412345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "AU/bareNSN",
+      "region": "AU",
+      "input": "Phone: 412345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "AU/international",
+      "region": "AU",
+      "input": "Phone: +61412345678",
+      "expected": [
+        "+61412345678"
+      ],
+      "actual": [
+        "+61412345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "AU/grouped",
+      "region": "AU",
+      "input": "Phone: +61 412 345678",
+      "expected": [
+        "+61412345678"
+      ],
+      "actual": [
+        "+61412345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "AU/dots",
+      "region": "AU",
+      "input": "Phone: 0412.345.678",
+      "expected": [
+        "+61412345678"
+      ],
+      "actual": [
+        "+61412345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "AU/duplicate",
+      "region": "AU",
+      "input": "Phone: 0412345678\n+61412345678",
+      "expected": [
+        "+61412345678"
+      ],
+      "actual": [
+        "+61412345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "AU/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +61412345678",
+      "expected": [
+        "+61412345678"
+      ],
+      "actual": [
+        "+61412345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "AU/optionalTrunk",
+      "region": "AU",
+      "input": "Phone: +61 (0) 412345678",
+      "expected": [
+        "+61412345678"
+      ],
+      "actual": [
+        "+61412345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "US/national",
+      "region": "US",
+      "input": "Phone: 12015550123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "US/bareNSN",
+      "region": "US",
+      "input": "Phone: 2015550123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "US/international",
+      "region": "US",
+      "input": "Phone: +12015550123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "US/grouped",
+      "region": "US",
+      "input": "Phone: +1 201 5550123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "US/dots",
+      "region": "US",
+      "input": "Phone: 1201.555.0123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "US/duplicate",
+      "region": "US",
+      "input": "Phone: 12015550123\n+12015550123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "US/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +12015550123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "US/optionalTrunk",
+      "region": "US",
+      "input": "Phone: +1 (1) 2015550123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CA/national",
+      "region": "CA",
+      "input": "Phone: 15062345678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CA/bareNSN",
+      "region": "CA",
+      "input": "Phone: 5062345678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CA/international",
+      "region": "CA",
+      "input": "Phone: +15062345678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CA/grouped",
+      "region": "CA",
+      "input": "Phone: +1 506 2345678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CA/dots",
+      "region": "CA",
+      "input": "Phone: 1506.234.5678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CA/duplicate",
+      "region": "CA",
+      "input": "Phone: 15062345678\n+15062345678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CA/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +15062345678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CA/optionalTrunk",
+      "region": "CA",
+      "input": "Phone: +1 (1) 5062345678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "GB/national",
+      "region": "GB",
+      "input": "Phone: 07400123456",
+      "expected": [
+        "+447400123456"
+      ],
+      "actual": [
+        "+447400123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "GB/bareNSN",
+      "region": "GB",
+      "input": "Phone: 7400123456",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "GB/international",
+      "region": "GB",
+      "input": "Phone: +447400123456",
+      "expected": [
+        "+447400123456"
+      ],
+      "actual": [
+        "+447400123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "GB/grouped",
+      "region": "GB",
+      "input": "Phone: +44 740 0123456",
+      "expected": [
+        "+447400123456"
+      ],
+      "actual": [
+        "+447400123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "GB/dots",
+      "region": "GB",
+      "input": "Phone: 0740.012.3456",
+      "expected": [
+        "+447400123456"
+      ],
+      "actual": [
+        "+447400123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "GB/duplicate",
+      "region": "GB",
+      "input": "Phone: 07400123456\n+447400123456",
+      "expected": [
+        "+447400123456"
+      ],
+      "actual": [
+        "+447400123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "GB/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +447400123456",
+      "expected": [
+        "+447400123456"
+      ],
+      "actual": [
+        "+447400123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "GB/optionalTrunk",
+      "region": "GB",
+      "input": "Phone: +44 (0) 7400123456",
+      "expected": [
+        "+447400123456"
+      ],
+      "actual": [
+        "+447400123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "DE/national",
+      "region": "DE",
+      "input": "Phone: 015123456789",
+      "expected": [
+        "+4915123456789"
+      ],
+      "actual": [
+        "+4915123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "DE/bareNSN",
+      "region": "DE",
+      "input": "Phone: 15123456789",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "DE/international",
+      "region": "DE",
+      "input": "Phone: +4915123456789",
+      "expected": [
+        "+4915123456789"
+      ],
+      "actual": [
+        "+4915123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "DE/grouped",
+      "region": "DE",
+      "input": "Phone: +49 151 23456789",
+      "expected": [
+        "+4915123456789"
+      ],
+      "actual": [
+        "+4915123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "DE/dots",
+      "region": "DE",
+      "input": "Phone: 0151.234.56789",
+      "expected": [
+        "+4915123456789"
+      ],
+      "actual": [
+        "+4915123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "DE/duplicate",
+      "region": "DE",
+      "input": "Phone: 015123456789\n+4915123456789",
+      "expected": [
+        "+4915123456789"
+      ],
+      "actual": [
+        "+4915123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "DE/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +4915123456789",
+      "expected": [
+        "+4915123456789"
+      ],
+      "actual": [
+        "+4915123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "DE/optionalTrunk",
+      "region": "DE",
+      "input": "Phone: +49 (0) 15123456789",
+      "expected": [
+        "+4915123456789"
+      ],
+      "actual": [
+        "+4915123456789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "FR/national",
+      "region": "FR",
+      "input": "Phone: 0612345678",
+      "expected": [
+        "+33612345678"
+      ],
+      "actual": [
+        "+33612345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "FR/bareNSN",
+      "region": "FR",
+      "input": "Phone: 612345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "FR/international",
+      "region": "FR",
+      "input": "Phone: +33612345678",
+      "expected": [
+        "+33612345678"
+      ],
+      "actual": [
+        "+33612345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "FR/grouped",
+      "region": "FR",
+      "input": "Phone: +33 612 345678",
+      "expected": [
+        "+33612345678"
+      ],
+      "actual": [
+        "+33612345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "FR/dots",
+      "region": "FR",
+      "input": "Phone: 0612.345.678",
+      "expected": [
+        "+33612345678"
+      ],
+      "actual": [
+        "+33612345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "FR/duplicate",
+      "region": "FR",
+      "input": "Phone: 0612345678\n+33612345678",
+      "expected": [
+        "+33612345678"
+      ],
+      "actual": [
+        "+33612345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "FR/foreignRegion",
+      "region": "VN",
+      "input": "Phone: +33612345678",
+      "expected": [
+        "+33612345678"
+      ],
+      "actual": [
+        "+33612345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "FR/optionalTrunk",
+      "region": "FR",
+      "input": "Phone: +33 (0) 612345678",
+      "expected": [
+        "+33612345678"
+      ],
+      "actual": [
+        "+33612345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "vn-idd",
+      "region": "VN",
+      "input": "0084 912 345 678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "jp-idd",
+      "region": "JP",
+      "input": "01084 912 345 678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "us-idd",
+      "region": "US",
+      "input": "01184 912 345 678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "au-idd",
+      "region": "AU",
+      "input": "001184 912 345 678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "sg-idd",
+      "region": "SG",
+      "input": "00184 912 345 678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "thai-digits",
+      "region": "VN",
+      "input": "๐๙๑๒๓๔๕๖๗๘",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "khmer-digits",
+      "region": "VN",
+      "input": "០៩១២៣៤៥៦៧៨",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "lao-digits",
+      "region": "VN",
+      "input": "໐໙໑໒໓໔໕໖໗໘",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "fullwidth",
+      "region": "VN",
+      "input": "＋８４ ９１２ ３４５ ６７８",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "tax-plus-phone",
+      "region": "VN",
+      "input": "MST: 0312345678\nSĐT: 0912345678",
+      "expected": [
+        "+84912345678"
+      ],
+      "actual": [
+        "+84912345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "invoice-plus-phone",
+      "region": "VN",
+      "input": "Order ID: 0912345678\nPhone: 0987654321",
+      "expected": [
+        "+84987654321"
+      ],
+      "actual": [
+        "+84987654321"
+      ],
+      "passed": true
+    },
+    {
+      "id": "tax-only",
+      "region": "VN",
+      "input": "MST: 0312345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "currency-prefix",
+      "region": "VN",
+      "input": "Total: 0912345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "currency-suffix",
+      "region": "VN",
+      "input": "0912345678 VND",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "too-short",
+      "region": "VN",
+      "input": "091234567",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "too-long",
+      "region": "VN",
+      "input": "09123456789",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "embedded-order",
+      "region": "VN",
+      "input": "ABC0912345678XYZ",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "never-substring",
+      "region": "VN",
+      "input": "123450912345678990000",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "no-ocr-guess",
+      "region": "VN",
+      "input": "O912345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "no-ocr-guess-middle",
+      "region": "VN",
+      "input": "09123I5678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "masked",
+      "region": "VN",
+      "input": "0912***678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "wrong-double-code",
+      "region": "VN",
+      "input": "+840912345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "no-global-00",
+      "region": "US",
+      "input": "0084912345678",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "unsupported-country",
+      "region": "VN",
+      "input": "+358401234567",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "emergency",
+      "region": "VN",
+      "input": "112\n113\n114\n115\n911",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "hotline",
+      "region": "VN",
+      "input": "18001090\n19001090",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "non-vn-explicit",
+      "region": "VN",
+      "input": "+819012345678",
+      "expected": [
+        "+819012345678"
+      ],
+      "actual": [
+        "+819012345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "us-valid",
+      "region": "VN",
+      "input": "+12015550123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "ca-valid",
+      "region": "VN",
+      "input": "+15062345678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "other-nanp",
+      "region": "VN",
+      "input": "+12425550123",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    },
+    {
+      "id": "local-seven-digit-nanp",
+      "region": "US",
+      "input": "5550123",
+      "expected": [],
+      "actual": [],
+      "passed": true
+    }
+  ],
+  "scope": "Serialized plist interpreter with simulated camera/photos/files/phone; host ICU regex. Not an iPhone runtime or OCR test."
+}

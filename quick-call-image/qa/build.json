@@ -1,0 +1,14 @@
+{
+  "Quick-Call-Image": {
+    "actions": 874,
+    "bytes": 802247,
+    "unsignedSHA256": "3b098e035f443fbb075bd0bdfbc38ef493525f82a6f469ac8585ec4317ed44ef",
+    "dryRun": false
+  },
+  "Quick-Call-Image-Test": {
+    "actions": 857,
+    "bytes": 790704,
+    "unsignedSHA256": "ec40dae1d25700690361b4a82392977f01a119fea108769a45fd8e7498f1059e",
+    "dryRun": true
+  }
+}
