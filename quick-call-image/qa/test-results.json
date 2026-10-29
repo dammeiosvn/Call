@@ -1,10 +1,10 @@
 {
-  "testMethods": 25,
+  "testMethods": 30,
   "failures": 0,
   "errors": 0,
   "skipped": 0,
-  "numberScenarios": 189,
-  "passedNumberScenarios": 189,
+  "numberScenarios": 209,
+  "passedNumberScenarios": 209,
   "cases": [
     {
       "id": "VN/national",
@@ -1843,6 +1843,246 @@
       ],
       "actual": [
         "+33612345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "VN/fixedLine",
+      "region": "VN",
+      "input": "Phone: 02101234567",
+      "expected": [
+        "+842101234567"
+      ],
+      "actual": [
+        "+842101234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TH/fixedLine",
+      "region": "TH",
+      "input": "Phone: 021234567",
+      "expected": [
+        "+6621234567"
+      ],
+      "actual": [
+        "+6621234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "SG/fixedLine",
+      "region": "SG",
+      "input": "Phone: 61234567",
+      "expected": [
+        "+6561234567"
+      ],
+      "actual": [
+        "+6561234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "MY/fixedLine",
+      "region": "MY",
+      "input": "Phone: 0323856789",
+      "expected": [
+        "+60323856789"
+      ],
+      "actual": [
+        "+60323856789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "ID/fixedLine",
+      "region": "ID",
+      "input": "Phone: 0218350123",
+      "expected": [
+        "+62218350123"
+      ],
+      "actual": [
+        "+62218350123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "PH/fixedLine",
+      "region": "PH",
+      "input": "Phone: 0232345678",
+      "expected": [
+        "+63232345678"
+      ],
+      "actual": [
+        "+63232345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KH/fixedLine",
+      "region": "KH",
+      "input": "Phone: 023756789",
+      "expected": [
+        "+85523756789"
+      ],
+      "actual": [
+        "+85523756789"
+      ],
+      "passed": true
+    },
+    {
+      "id": "LA/fixedLine",
+      "region": "LA",
+      "input": "Phone: 021212862",
+      "expected": [
+        "+85621212862"
+      ],
+      "actual": [
+        "+85621212862"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CN/fixedLine",
+      "region": "CN",
+      "input": "Phone: 01012345678",
+      "expected": [
+        "+861012345678"
+      ],
+      "actual": [
+        "+861012345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "TW/fixedLine",
+      "region": "TW",
+      "input": "Phone: 0221234567",
+      "expected": [
+        "+886221234567"
+      ],
+      "actual": [
+        "+886221234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "HK/fixedLine",
+      "region": "HK",
+      "input": "Phone: 21234567",
+      "expected": [
+        "+85221234567"
+      ],
+      "actual": [
+        "+85221234567"
+      ],
+      "passed": true
+    },
+    {
+      "id": "JP/fixedLine",
+      "region": "JP",
+      "input": "Phone: 0312345678",
+      "expected": [
+        "+81312345678"
+      ],
+      "actual": [
+        "+81312345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "KR/fixedLine",
+      "region": "KR",
+      "input": "Phone: 022123456",
+      "expected": [
+        "+8222123456"
+      ],
+      "actual": [
+        "+8222123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "IN/fixedLine",
+      "region": "IN",
+      "input": "Phone: 07410410123",
+      "expected": [
+        "+917410410123"
+      ],
+      "actual": [
+        "+917410410123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "AU/fixedLine",
+      "region": "AU",
+      "input": "Phone: 0212345678",
+      "expected": [
+        "+61212345678"
+      ],
+      "actual": [
+        "+61212345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "US/fixedLine",
+      "region": "US",
+      "input": "Phone: 12015550123",
+      "expected": [
+        "+12015550123"
+      ],
+      "actual": [
+        "+12015550123"
+      ],
+      "passed": true
+    },
+    {
+      "id": "CA/fixedLine",
+      "region": "CA",
+      "input": "Phone: 15062345678",
+      "expected": [
+        "+15062345678"
+      ],
+      "actual": [
+        "+15062345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "GB/fixedLine",
+      "region": "GB",
+      "input": "Phone: 01212345678",
+      "expected": [
+        "+441212345678"
+      ],
+      "actual": [
+        "+441212345678"
+      ],
+      "passed": true
+    },
+    {
+      "id": "DE/fixedLine",
+      "region": "DE",
+      "input": "Phone: 030123456",
+      "expected": [
+        "+4930123456"
+      ],
+      "actual": [
+        "+4930123456"
+      ],
+      "passed": true
+    },
+    {
+      "id": "FR/fixedLine",
+      "region": "FR",
+      "input": "Phone: 0123456789",
+      "expected": [
+        "+33123456789"
+      ],
+      "actual": [
+        "+33123456789"
       ],
       "passed": true
     },

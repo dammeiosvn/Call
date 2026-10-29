@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 REVISION = '8593ab70fa4fadffc042b2714034f4c52bef7daf'
-VERSION = '1.0.0-beta.4'
+VERSION = '1.0.0-beta.5'
 REGIONS = [
     ('VN', 'Việt Nam', 'vi'), ('TH', 'ไทย', 'th'), ('SG', 'Singapore', 'en'),
     ('MY', 'Malaysia', 'ms'), ('ID', 'Indonesia', 'id'), ('PH', 'Philippines', 'en'),
@@ -47,12 +47,16 @@ def compile_catalog():
     for region, name, language in REGIONS:
         t = territories[region]
         mobile = t.find('mobile')
-        nsn_lengths = lengths(mobile.find('possibleLengths').attrib['national'])
-        length_regex = '(?:' + '|'.join('[0-9]{%d}' % n for n in nsn_lengths) + ')'
+        fixed = t.find('fixedLine')
+        nsn_lengths = sorted(set(lengths(mobile.find('possibleLengths').attrib['national'])
+                                 + lengths(fixed.find('possibleLengths').attrib['national'])))
         general = compact_pattern(t, 'generalDesc/nationalNumberPattern')
-        pattern = compact_pattern(mobile, 'nationalNumberPattern')
-        # Full-string intersection: allowed lengths AND general numbering plan AND mobile range.
-        # Shared fixed/mobile ranges in US/CA are intentionally accepted; no carrier guessing.
+        branches = []
+        for element in (mobile, fixed):
+            allowed = lengths(element.find('possibleLengths').attrib['national'])
+            length_regex = '(?:' + '|'.join('[0-9]{%d}' % n for n in allowed) + ')'
+            branches.append('(?=' + length_regex + r'\z)(?:' + compact_pattern(element, 'nationalNumberPattern') + ')')
+        pattern = '(?:' + '|'.join(branches) + ')'
         countries[region] = {
             'regionCode': region, 'name': name, 'icon': flag(region),
             'callingCode': '+' + t.attrib['countryCode'], 'defaultLanguage': language,
@@ -61,10 +65,11 @@ def compile_catalog():
             # Elsewhere require the national prefix; don't guess a missing zero.
             'acceptBareNSN': '1' if region in ('SG', 'HK', 'CN', 'IN', 'US', 'CA') else '0',
             'internationalPrefixPattern': r'\A(?:' + t.attrib['internationalPrefix'] + r')(?=[1-9][0-9]{6,}\z)',
-            'nationalPattern': r'\A(?=' + length_regex + r'\z)(?=(?:' + general + r')\z)(?:' + pattern + r')\z',
+            'nationalPattern': r'\A(?=(?:' + general + r')\z)' + pattern + r'\z',
             'possibleLengths': nsn_lengths,
-            'numberType': 'FIXED_LINE_OR_MOBILE' if region in ('US', 'CA') else 'MOBILE',
+            'numberType': 'FIXED_LINE_OR_MOBILE',
             'exampleNSN': mobile.findtext('exampleNumber'),
+            'fixedExampleNSN': fixed.findtext('exampleNumber'),
             'rulesRevision': 'libphonenumber-9.0.42',
         }
     unicode_digits = {}
@@ -77,7 +82,8 @@ def compile_catalog():
         return [{'id': x, 'labelKey': x, 'iconKey': x, 'handler': x, 'enabled': '1'} for x in ids]
 
     return {
-        'meta': {'schemaVersion': '1', 'engineRevision': '1', 'configVersion': VERSION,
+        'meta': {'schemaVersion': '1', 'engineRevision': '2', 'configVersion': VERSION,
+                 'author': '©️ Sentechtipsvn',
                  'metadataRevision': REVISION, 'metadataSHA256': hashlib.sha256(raw).hexdigest(),
                  'metadataSource': 'https://github.com/google/libphonenumber/tree/' + REVISION,
                  'license': 'Apache-2.0'},
@@ -94,7 +100,7 @@ def compile_catalog():
         'behavior': {'maxInteractions': 20, 'maxTextCharacters': 120000,
                      'e164Pattern': r'\A\+[1-9][0-9]{6,14}\z',
                      'unicodeDigitPattern': '[０-９๐-๙០-៩໐-໙०-९٠-٩۰-۹]',
-                     'candidatePattern': r'(?<![\p{L}\p{N}+])\+?[0-9](?:[ \u00A0\u202F().‐‑‒–—-]*[0-9]){6,}(?![\p{L}\p{N}])',
+                     'candidatePattern': r'(?<![\p{L}\p{N}+])\+?[0-9](?:[ \u00A0\u202F().‐‑‒–—-]*[0-9]){4,}(?![\p{L}\p{N}])',
                      'ignorePrefixPattern': r'(?i)(?:\b(?:MST|tax\s*(?:id|code|number)|VAT\s*(?:id|no|number)|order\s*(?:id|no\.?|number)|invoice\s*(?:id|no\.?|number)|account\s*(?:no\.?|number)|IBAN|total|subtotal|amount|quantity|NPWP|jumlah)\b|mã\s*(?:số\s*thuế|đơn|vận\s*đơn)|tổng\s*(?:cộng|tiền)|số\s*tài\s*khoản|订单号|訂單號|税号|稅號|合计|合計|注文番号|請求書番号|주문번호|사업자등록번호|총액|ยอดรวม|เลขที่ใบเสร็จ|[$€£¥₫₹₩฿])\s*[:：#=]?\s*\z',
                      'currencySuffixPattern': r'(?i)\A\s*(?:[$€£¥₫₹₩฿]|VND\b|USD\b|EUR\b|GBP\b|JPY\b|CNY\b|KRW\b|THB\b|INR\b|đồng\b)',
                      'bootstrapCountryPrompt': '🌍 Bạn chọn quốc gia/vùng nào? / Choose your country or region',

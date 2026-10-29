@@ -17,14 +17,14 @@ runtime dùng catalog trên thiết bị. Không có cập nhật mạng tự đ
 
 ## Trường chính
 
-- `meta.schemaVersion` và `meta.engineRevision`: hiện là chuỗi `"1"`.
+- `meta.schemaVersion` và `meta.engineRevision`: schema là chuỗi `"1"`, engine là chuỗi `"2"`.
 - `countryOrder`, `languageOrder`: danh sách có thứ tự; không dựa vào thứ tự khoá.
 - `countries.<ISO>.callingCode`: văn bản, ví dụ `"+84"`.
 - `countries.<ISO>.nationalPrefix`: văn bản, có thể rỗng; không phải nước nào cũng dùng `0`.
 - `countries.<ISO>.acceptBareNSN`: `"1"` cho phép dạng NSN không tiền tố nội địa;
   `"0"` yêu cầu tiền tố nội địa đối với số chưa có mã quốc gia. VN mặc định `"0"`.
 - `countries.<ISO>.nationalPattern`: kiểm tra toàn bộ NSN, giao của độ dài,
-  mẫu số chung và dải di động. Dải cố định/di động dùng chung được ghi rõ trong `numberType`.
+  mẫu số chung và dải cố định hoặc di động; loại dịch vụ không được tự thêm vào mẫu.
 - `countries.<ISO>.internationalPrefixPattern`: tiền tố gọi quốc tế theo vùng nguồn; không coi `00` là mặc định toàn cầu.
 - `languages.<code>`: đầy đủ các khoá bằng gói `en`; tên ngôn ngữ dùng cách tự gọi.
 - `icons`: emoji cho menu và kết quả; bản này chưa có bộ hiển thị icon PNG/vCard.
@@ -85,3 +85,12 @@ Thư mục trên thiết bị chỉ lưu cấu hình, không lưu ảnh, văn b�
 cuộc gọi. Bản sao `settings.previous.json` chỉ được tạo khi đổi cài đặt.
 Từ beta.2, `catalog.previous.json` giữ catalog JSON đọc được nhưng có schema hoặc
 engine không tương thích trước khi khôi phục. Catalog tương thích được giữ nguyên.
+
+## Beta.5
+
+- meta.author: ©️ Sentechtipsvn, dùng trong Giới thiệu.
+- languages.<code>.call: chữ sau số, ví dụ Gọi.
+- languages.<code>.setupComplete: thông báo thành công sau đọc xác minh và dừng.
+- engineRevision 2 nhận cả số cố định/di động; bản nhúng thay engine 1 có sao lưu.
+- Menu số không hiển thị hay lưu ngữ cảnh OCR trong bảng Numbers. Đích ID luôn E.164.
+- Không so sánh hash chuỗi JSON để xác minh lưu; thứ tự khoá/whitespace không đổi dữ liệu.

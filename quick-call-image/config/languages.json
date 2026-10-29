@@ -29,7 +29,9 @@
     "language": "Ngôn ngữ",
     "restore": "Khôi phục dữ liệu gốc",
     "restored": "Đã khôi phục dữ liệu gốc. Cài đặt quốc gia và ngôn ngữ của bạn được giữ lại.",
-    "internalError": "Không thể tiếp tục vì lỗi xử lý nội bộ. Bạn hãy gửi mã lỗi bên dưới để được hỗ trợ."
+    "internalError": "Không thể tiếp tục vì lỗi xử lý nội bộ. Bạn hãy gửi mã lỗi bên dưới để được hỗ trợ.",
+    "call": "Gọi",
+    "setupComplete": "Đã cài đặt cấu hình phím tắt thành công. Bạn vui lòng chạy lại phím tắt."
   },
   "en": {
     "name": "English",
@@ -61,7 +63,9 @@
     "language": "Language",
     "restore": "Restore bundled data",
     "restored": "Bundled data restored. Your country and language settings have been kept.",
-    "internalError": "An internal processing error stopped this shortcut. Please report the error code below."
+    "internalError": "An internal processing error stopped this shortcut. Please report the error code below.",
+    "call": "Call",
+    "setupComplete": "Shortcut configuration was saved successfully. Please run the shortcut again."
   },
   "th": {
     "name": "ไทย",
@@ -93,7 +97,9 @@
     "language": "ภาษา",
     "restore": "คืนค่าข้อมูลเริ่มต้น",
     "restored": "คืนค่าข้อมูลเริ่มต้นแล้ว โดยเก็บประเทศและภาษาที่คุณเลือกไว้",
-    "internalError": "เกิดข้อผิดพลาดภายใน กรุณาส่งรหัสข้อผิดพลาดด้านล่างเพื่อขอความช่วยเหลือ"
+    "internalError": "เกิดข้อผิดพลาดภายใน กรุณาส่งรหัสข้อผิดพลาดด้านล่างเพื่อขอความช่วยเหลือ",
+    "call": "โทร",
+    "setupComplete": "ตั้งค่าคำสั่งลัดสำเร็จแล้ว กรุณาเรียกใช้คำสั่งลัดอีกครั้ง"
   },
   "ms": {
     "name": "Bahasa Melayu",
@@ -125,7 +131,9 @@
     "language": "Bahasa",
     "restore": "Pulihkan data asal",
     "restored": "Data asal dipulihkan. Tetapan negara dan bahasa anda dikekalkan.",
-    "internalError": "Ralat pemprosesan dalaman berlaku. Sila laporkan kod ralat di bawah."
+    "internalError": "Ralat pemprosesan dalaman berlaku. Sila laporkan kod ralat di bawah.",
+    "call": "Panggil",
+    "setupComplete": "Konfigurasi pintasan berjaya disimpan. Sila jalankan pintasan semula."
   },
   "id": {
     "name": "Bahasa Indonesia",
@@ -157,7 +165,9 @@
     "language": "Bahasa",
     "restore": "Pulihkan data bawaan",
     "restored": "Data bawaan dipulihkan. Pengaturan negara dan bahasa Anda tetap disimpan.",
-    "internalError": "Terjadi kesalahan pemrosesan internal. Silakan laporkan kode kesalahan di bawah."
+    "internalError": "Terjadi kesalahan pemrosesan internal. Silakan laporkan kode kesalahan di bawah.",
+    "call": "Panggil",
+    "setupComplete": "Konfigurasi pintasan berhasil disimpan. Silakan jalankan pintasan lagi."
   },
   "km": {
     "name": "ភាសាខ្មែរ",
@@ -189,7 +199,9 @@
     "language": "ភាសា",
     "restore": "ស្តារទិន្នន័យដើម",
     "restored": "បានស្តារទិន្នន័យដើម។ បានរក្សាការកំណត់ប្រទេស និងភាសារបស់អ្នក។",
-    "internalError": "មានកំហុសដំណើរការខាងក្នុង។ សូមរាយការណ៍លេខកូដកំហុសខាងក្រោម។"
+    "internalError": "មានកំហុសដំណើរការខាងក្នុង។ សូមរាយការណ៍លេខកូដកំហុសខាងក្រោម។",
+    "call": "ហៅ",
+    "setupComplete": "ការកំណត់ផ្លូវកាត់បានរក្សាទុកដោយជោគជ័យ។ សូមដំណើរការផ្លូវកាត់ម្តងទៀត។"
   },
   "lo": {
     "name": "ພາສາລາວ",
@@ -221,7 +233,9 @@
     "language": "ພາສາ",
     "restore": "ຄືນຄ່າຂໍ້ມູນເດີມ",
     "restored": "ຄືນຄ່າຂໍ້ມູນເດີມແລ້ວ. ຍັງເກັບປະເທດ ແລະພາສາຂອງທ່ານໄວ້.",
-    "internalError": "ເກີດຂໍ້ຜິດພາດພາຍໃນ. ກະລຸນາລາຍງານລະຫັດຂໍ້ຜິດພາດຂ້າງລຸ່ມ."
+    "internalError": "ເກີດຂໍ້ຜິດພາດພາຍໃນ. ກະລຸນາລາຍງານລະຫັດຂໍ້ຜິດພາດຂ້າງລຸ່ມ.",
+    "call": "ໂທ",
+    "setupComplete": "ບັນທຶກການຕັ້ງຄ່າທາງລັດສຳເລັດແລ້ວ. ກະລຸນາເປີດໃຊ້ທາງລັດອີກຄັ້ງ."
   },
   "zh-Hans": {
     "name": "简体中文",
@@ -253,7 +267,9 @@
     "language": "语言",
     "restore": "恢复内置数据",
     "restored": "已恢复内置数据，并保留你的国家和语言设置。",
-    "internalError": "内部处理出错，无法继续。请反馈下方错误代码。"
+    "internalError": "内部处理出错，无法继续。请反馈下方错误代码。",
+    "call": "拨打",
+    "setupComplete": "快捷指令配置已成功保存。请重新运行快捷指令。"
   },
   "zh-Hant": {
     "name": "繁體中文",
@@ -285,7 +301,9 @@
     "language": "語言",
     "restore": "還原內建資料",
     "restored": "已還原內建資料，並保留你的國家與語言設定。",
-    "internalError": "內部處理發生錯誤，無法繼續。請回報下方錯誤代碼。"
+    "internalError": "內部處理發生錯誤，無法繼續。請回報下方錯誤代碼。",
+    "call": "撥打",
+    "setupComplete": "捷徑設定已成功儲存。請重新執行捷徑。"
   },
   "ja": {
     "name": "日本語",
@@ -317,7 +335,9 @@
     "language": "言語",
     "restore": "内蔵データを復元",
     "restored": "内蔵データを復元しました。国と言語の設定は保持されています。",
-    "internalError": "内部処理エラーのため続行できません。下のエラーコードを報告してください。"
+    "internalError": "内部処理エラーのため続行できません。下のエラーコードを報告してください。",
+    "call": "発信",
+    "setupComplete": "ショートカットの設定を保存しました。もう一度実行してください。"
   },
   "ko": {
     "name": "한국어",
@@ -349,7 +369,9 @@
     "language": "언어",
     "restore": "기본 데이터 복원",
     "restored": "기본 데이터가 복원되었습니다. 국가 및 언어 설정은 유지됩니다.",
-    "internalError": "내부 처리 오류로 계속할 수 없습니다. 아래 오류 코드를 알려 주세요."
+    "internalError": "내부 처리 오류로 계속할 수 없습니다. 아래 오류 코드를 알려 주세요.",
+    "call": "전화",
+    "setupComplete": "단축어 설정을 저장했습니다. 단축어를 다시 실행해 주세요."
   },
   "de": {
     "name": "Deutsch",
@@ -381,7 +403,9 @@
     "language": "Sprache",
     "restore": "Mitgelieferte Daten wiederherstellen",
     "restored": "Die mitgelieferten Daten wurden wiederhergestellt. Ihr Land und Ihre Sprache wurden beibehalten.",
-    "internalError": "Ein interner Verarbeitungsfehler ist aufgetreten. Bitte melde den folgenden Fehlercode."
+    "internalError": "Ein interner Verarbeitungsfehler ist aufgetreten. Bitte melde den folgenden Fehlercode.",
+    "call": "Anrufen",
+    "setupComplete": "Die Konfiguration wurde erfolgreich gespeichert. Bitte starte den Kurzbefehl erneut."
   },
   "fr": {
     "name": "Français",
@@ -413,6 +437,8 @@
     "language": "Langue",
     "restore": "Restaurer les données intégrées",
     "restored": "Les données intégrées ont été restaurées. Vos réglages de pays et de langue ont été conservés.",
-    "internalError": "Une erreur interne empêche de continuer. Veuillez signaler le code d’erreur ci-dessous."
+    "internalError": "Une erreur interne empêche de continuer. Veuillez signaler le code d’erreur ci-dessous.",
+    "call": "Appeler",
+    "setupComplete": "La configuration a été enregistrée. Veuillez relancer le raccourci."
   }
 }

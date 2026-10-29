@@ -39,6 +39,52 @@ def scenario(name, body, expected, region='VN', **kwargs):
 
 
 class NativeWorkflowTests(unittest.TestCase):
+    def test_json_readback_accepts_reordered_equivalent_data_but_blocks_wrong_values(self):
+        st = run(TEST, incoming=image('0912345678'), menus=['VN', 'vi'], rewrite_json=True)
+        self.assertEqual(st['alerts'], [CAT['languages']['vi']['setupComplete']])
+        self.assertEqual(st['ocrCalls'], 0)
+        again = run(TEST, disk=st['disk'], incoming=image('0912345678'))
+        self.assertTrue(again['previews'][0].endswith('+84912345678'))
+        for filename, code in [('catalog.json', 'QC301'), ('settings.json', 'QC302')]:
+            bad = run(TEST, menus=['VN', 'vi'], corrupt_save=filename)
+            self.assertTrue(any(code in msg for msg in bad['alerts']))
+            self.assertNotIn(CAT['languages']['vi']['setupComplete'], bad['alerts'])
+            self.assertEqual(bad['destinations'], [])
+
+    def test_clean_local_number_rows_foreign_code_and_canonical_selection(self):
+        body = 'Phone: 0912345678\nDelivery address: +819012345678'
+        st = run(TEST, disk=disk(), incoming=image(body), menus=['+84912345678'])
+        self.assertEqual(st['menus'][0]['options'][:2], ['📞 0912345678 - Gọi', '📞 +819012345678 - Gọi'])
+        self.assertTrue(st['previews'][0].endswith('+84912345678'))
+        self.assertEqual(st['destinations'], [])
+        self.assertEqual(set(st['variables']['Numbers'].values()), {'1'})
+        self.assertFalse(any(a['WFWorkflowActionIdentifier'].endswith('showresult') for a in TEST['WFWorkflowActions']))
+
+    def test_about_preserves_menu_and_author(self):
+        st = run(TEST, disk=disk(), menus=['about', 'cancel'])
+        self.assertIn('ℹ️ Giới thiệu', st['menus'][0]['options'])
+        self.assertTrue(any('Quick Call Image ' + CAT['meta']['configVersion'] in msg
+                            and '©️ Sentechtipsvn' in msg for msg in st['alerts']))
+
+    def test_fixed_line_examples_for_all_20_regions(self):
+        for region, profile in CAT['countries'].items():
+            raw = profile['nationalPrefix'] + profile['fixedExampleNSN']
+            expected = profile['callingCode'] + profile['fixedExampleNSN']
+            with self.subTest(region=region):
+                st = scenario(region + '/fixedLine', 'Phone: ' + raw, [expected], region)
+                self.assertEqual(st['destinations'], [expected])
+
+    def test_engine_one_catalog_migrates_with_backup_and_keeps_settings(self):
+        old = copy.deepcopy(CAT)
+        old['meta']['engineRevision'] = '1'
+        d = disk(catalog=old)
+        st = run(TEST, disk=d, incoming=image('0912345678'))
+        self.assertEqual(st['disk']['QuickCall/settings.json'], d['QuickCall/settings.json'])
+        self.assertEqual(json.loads(st['disk']['QuickCall/catalog.previous.json'].body), old)
+        self.assertEqual(json.loads(st['disk']['QuickCall/catalog.json'].body)['meta']['engineRevision'], '2')
+        self.assertEqual(st['menus'], [])
+        self.assertTrue(st['previews'][0].endswith('+84912345678'))
+
     def test_mixed_nested_loops_use_explicit_items_and_full_depth_indexes(self):
         for workflow in (NORMAL, TEST):
             stack = []
@@ -209,7 +255,7 @@ class NativeWorkflowTests(unittest.TestCase):
         st = run(NORMAL, incoming=image(body), disk=disk(), menus=['+84987654321'])
         self.assertEqual(st['destinations'], ['+84987654321'])
         self.assertEqual(len(st['menus']), 1)
-        self.assertTrue(st['menus'][0]['options'][0].startswith('📞 +84'))
+        self.assertEqual(st['menus'][0]['options'][0], '📞 0912345678 - Gọi')
         st = run(NORMAL, incoming=image(body), disk=disk(), menus=['manual'], answers=['0912345678'])
         self.assertEqual(st['destinations'], ['+84912345678'])
         self.assertEqual(st['ocrCalls'], 1)
@@ -222,17 +268,19 @@ class NativeWorkflowTests(unittest.TestCase):
         self.assertEqual(len(st['menus']), 1)
         self.assertIn('quốc tế', st['menus'][0]['prompt'])
 
-    def test_first_run_saves_settings_and_preserves_shared_image(self):
+    def test_first_run_saves_settings_then_requests_restart_without_ocr(self):
         st = run(NORMAL, incoming=image('0912345678'), menus=['VN', 'vi'])
-        self.assertEqual(st['destinations'], ['+84912345678'])
+        self.assertEqual(st['destinations'], [])
+        self.assertEqual(st['alerts'], [CAT['languages']['vi']['setupComplete']])
         settings = json.loads(st['disk']['QuickCall/settings.json'].body)
         self.assertEqual(settings['region'], 'VN')
         self.assertEqual(settings['language'], 'vi')
-        self.assertEqual(st['ocrCalls'], 1)
+        self.assertEqual(st['ocrCalls'], 0)
         self.assertEqual([len(m['options']) for m in st['menus']], [20, 13])
         st2 = run(NORMAL, incoming=image('0912345678'), disk=st['disk'])
         self.assertEqual(st2['menus'], [])
         self.assertEqual(st2['writes'], [])
+        self.assertEqual(st2['destinations'], ['+84912345678'])
 
     def test_first_run_cancel_and_io_failure_never_calls(self):
         st = run(NORMAL, incoming=image('0912345678'), menus=[None])
@@ -286,7 +334,10 @@ class NativeWorkflowTests(unittest.TestCase):
                 d = disk()
                 d['QuickCall/settings.json'] = File('settings.json', raw)
                 st = run(NORMAL, disk=d, incoming=image('09012345678'), menus=['JP', 'vi'])
-                self.assertEqual(st['destinations'], ['+819012345678'])
+                self.assertEqual(st['destinations'], [])
+                self.assertEqual(st['alerts'], [CAT['languages']['vi']['setupComplete']])
+                again = run(NORMAL, disk=st['disk'], incoming=image('09012345678'))
+                self.assertEqual(again['destinations'], ['+819012345678'])
 
     def test_single_result_choose_preference(self):
         st = run(NORMAL, incoming=image('0912345678'), disk=disk(single='choose'), menus=['cancel'])
@@ -361,7 +412,7 @@ class NativeWorkflowTests(unittest.TestCase):
         comparisons = 0
         for region, profile in CAT['countries'].items():
             pattern = Pattern(profile['nationalPattern'])
-            pool = [profile['exampleNSN']]
+            pool = [profile['exampleNSN'], profile['fixedExampleNSN']]
             for _ in range(80):
                 size = rng.choice(profile['possibleLengths'])
                 pool.append(''.join(str(rng.randrange(10)) for _ in range(size)))
@@ -370,7 +421,7 @@ class NativeWorkflowTests(unittest.TestCase):
                 # parse() can silently strip a trunk prefix even after +CC. Our
                 # validator deliberately requires an already-canonical NSN.
                 canonical = pn.format_number(number, pn.PhoneNumberFormat.E164) == profile['callingCode'] + nsn
-                oracle = canonical and pn.is_valid_number_for_region(number, region) and pn.number_type(number) in (pn.PhoneNumberType.MOBILE, pn.PhoneNumberType.FIXED_LINE_OR_MOBILE)
+                oracle = canonical and pn.is_valid_number_for_region(number, region) and pn.number_type(number) in (pn.PhoneNumberType.MOBILE, pn.PhoneNumberType.FIXED_LINE, pn.PhoneNumberType.FIXED_LINE_OR_MOBILE)
                 self.assertEqual(bool(pattern.matches(nsn)), oracle, (region, nsn))
                 comparisons += 1
         (ROOT / 'qa/oracle.json').write_text(json.dumps({'library': pn.__version__, 'comparisons': comparisons, 'passed': True}) + '\n')

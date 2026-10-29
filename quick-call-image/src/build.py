@@ -38,13 +38,15 @@ def build(dry_run=False):
         w.assign('Language', 'en')
         w.set('Strings', get(v('Catalog'), 'languages.en'))
         w.end_if(present)
-        # Older compatible catalogs lack new diagnostics. Fill only the new
-        # key from bundled translations; preserve the user's other edits.
-        diagnostic_present = w.if_gt(w.count(get(v('Strings'), 'internalError'), 'Characters'))
-        w.otherwise(diagnostic_present)
-        w.set('Strings', put(v('Strings'), 'internalError',
-            get(v('BundledCatalog'), 'languages.', v('Language'), '.internalError')))
-        w.end_if(diagnostic_present)
+        # Fill missing labels from the current bundle without overwriting edits.
+        w.set('FallbackStrings', get(v('BundledCatalog'), 'languages.', v('Language')))
+        labels_loop, key = w.each(w.keys(v('FallbackStrings')))
+        w.set('FallbackKey', text(key))
+        present = w.if_gt(w.count(get(v('Strings'), v('FallbackKey')), 'Characters'))
+        w.otherwise(present)
+        w.set('Strings', put(v('Strings'), v('FallbackKey'), get(v('FallbackStrings'), v('FallbackKey'))))
+        w.end_if(present)
+        w.end_loop(labels_loop)
 
     def read_file(name):
         return a('documentpicker.open', {'WFFile': ref(v('StorageRoot')),
@@ -62,10 +64,24 @@ def build(dry_run=False):
 
     def persist_catalog():
         save_file(text(v('EmbeddedCatalogJSON')), 'catalog.json')
-        check = text(read_file('catalog.json'), name='Saved catalog contents')
-        require_eq(w.hash(check), w.hash(v('EmbeddedCatalogJSON')), 'saveFailed')
+        saved = read_file('catalog.json')
+        exists = w.if_gt(w.count(saved))
+        w.otherwise(exists)
+        w.alert(label('saveFailed'), stop=True)
+        w.end_if(exists)
+        check = a('detect.dictionary', {'WFInput': ref(saved)}, 'Read-back catalog')
+        # JSON key order/whitespace are not data. Check mandatory metadata and
+        # collection sizes after parsing instead of hashing a coerced string.
+        for key in ('schemaVersion', 'engineRevision', 'configVersion'):
+            require_eq(get(check, 'meta.' + key), get(v('BundledCatalog'), 'meta.' + key), 'saveFailed', 'QC301 · Catalog ' + key)
+        for key in ('countryOrder', 'languageOrder', 'countries', 'languages'):
+            actual = get(check, key)
+            expected = get(v('BundledCatalog'), key)
+            if key in ('countries', 'languages'):
+                actual, expected = w.keys(actual), w.keys(expected)
+            require_eq(w.count(actual), w.count(expected), 'saveFailed', 'QC301 · Catalog ' + key)
 
-    def save_settings():
+    def save_settings(initial=False):
         create_folder()
         settings = text('{"schemaVersion":"1","region":"', v('Region'),
             '","language":"', v('Language'), '","singleResult":"', v('SingleResult'), '"}',
@@ -75,9 +91,17 @@ def build(dry_run=False):
         save_file(text(previous), 'settings.previous.json')
         w.end_if(exists)
         save_file(settings, 'settings.json')
-        reread = text(read_file('settings.json'), name='Saved settings contents')
-        require_eq(w.hash(reread), w.hash(settings), 'saveFailed')
-        w.notify('saved')
+        saved = read_file('settings.json')
+        exists = w.if_gt(w.count(saved))
+        w.otherwise(exists)
+        w.alert(label('saveFailed'), stop=True)
+        w.end_if(exists)
+        reread = a('detect.dictionary', {'WFInput': ref(saved)}, 'Read-back settings')
+        for key, expected in [('schemaVersion', '1'), ('region', v('Region')),
+                              ('language', v('Language')), ('singleResult', v('SingleResult'))]:
+            require_eq(get(reread, key), expected, 'saveFailed', 'QC302 · Settings ' + key)
+        if not initial:
+            w.notify('saved')
 
     def menu_start():
         w.empty_list('Rows')
@@ -155,7 +179,10 @@ def build(dry_run=False):
         w.set('DialTarget', target)
         eligible = w.if_match(v('DialTarget'), get(v('Catalog'), 'behavior.e164Pattern'))
         if dry_run:
-            a('showresult', {'Text': token(label('testResult'), '\n\n', v('DialTarget'))}, 'Test destination; no call')
+            w.set('TestResultText', text(label('testResult'), '\n\n', v('DialTarget'), name='Full test destination'))
+            a('alert', {'WFAlertActionTitle': 'Quick Call Image · Test',
+                'WFAlertActionMessage': token(v('TestResultText')),
+                'WFAlertActionCancelButtonShown': False}, 'Test destination; no call')
         else:
             phone = a('detect.phonenumber', {'WFInput': ref(v('DialTarget'))}, 'Dialable phone number')
             one = w.if_eq(w.count(phone), '1')
@@ -177,9 +204,7 @@ def build(dry_run=False):
         # E164 keys contain no dots, so Dictionary's dotted-key lookup is unambiguous.
         prior = get(v('Numbers'), canonical)
         new_number = w.if_eq(w.count(prior, 'Characters'), '0')
-        context = w.replace(v('Line'), r'\s+', ' ')
-        context = w.replace(context, r'\A(.{0,72})[\s\S]*\z', '$1')
-        w.set('Numbers', put(v('Numbers'), canonical, context))
+        w.set('Numbers', put(v('Numbers'), canonical, '1'))
         w.end_if(new_number)
         w.assign('CandidateValid', '1')
         w.end_if(safe)
@@ -277,7 +302,7 @@ def build(dry_run=False):
     # Verify the embedded resource before reading any local files. A failure
     # here is a build/import defect, never evidence of a damaged user file.
     require_eq(get(v('Catalog'), 'meta.schemaVersion'), '1', code='QC101-B · Bundled schema')
-    require_eq(get(v('Catalog'), 'meta.engineRevision'), '1', code='QC102-B · Bundled engine')
+    require_eq(get(v('Catalog'), 'meta.engineRevision'), '2', code='QC102-B · Bundled engine')
     w.set('SharedImages', a('detect.images', {'WFInput': ref({'Type': 'ExtensionInput'})}, 'Shared images'))
     w.set('StorageRoot', a('file', {'WFFile': SHORTCUTS_FOLDER}, 'Portable Shortcuts folder'))
     catalog_file = read_file('catalog.json')
@@ -285,7 +310,7 @@ def build(dry_run=False):
     w.set('Catalog', a('detect.dictionary', {'WFInput': ref(catalog_file)}, 'Local catalog'))
     w.assign('LocalCatalogValid', '0')
     schema_ok = w.if_eq(get(v('Catalog'), 'meta.schemaVersion'), '1')
-    engine_ok = w.if_eq(get(v('Catalog'), 'meta.engineRevision'), '1')
+    engine_ok = w.if_eq(get(v('Catalog'), 'meta.engineRevision'), '2')
     w.assign('LocalCatalogValid', '1')
     w.end_if(engine_ok)
     w.end_if(schema_ok)
@@ -299,7 +324,7 @@ def build(dry_run=False):
     persist_catalog()
     w.end_if(catalog_exists)
     require_eq(get(v('Catalog'), 'meta.schemaVersion'), '1', code='QC101-L · Loaded schema')
-    require_eq(get(v('Catalog'), 'meta.engineRevision'), '1', code='QC102-L · Loaded engine')
+    require_eq(get(v('Catalog'), 'meta.engineRevision'), '2', code='QC102-L · Loaded engine')
     w.assign('SettingsValid', '0')
     w.assign('Region', 'VN')
     w.assign('Language', 'en')
@@ -331,7 +356,8 @@ def build(dry_run=False):
     load_strings()
     choose_country(bootstrap=True)
     choose_language()
-    save_settings()
+    save_settings(initial=True)
+    w.alert(label('setupComplete'), stop=True)
     w.end_if(needs_setup)
     load_strings()
     if dry_run:
@@ -376,7 +402,8 @@ def build(dry_run=False):
     w.assign('Route', 'menu')
     w.end_if(settings_route)
     about_route = w.if_eq(v('Route'), 'about')
-    w.alert(text('Quick Call Image ', CATALOG['meta']['configVersion'], '\n\n', label('aboutBody')))
+    w.alert(text('Quick Call Image ', CATALOG['meta']['configVersion'], '\n',
+        get(v('BundledCatalog'), 'meta.author'), '\n\n', label('aboutBody')))
     w.assign('Route', 'menu')
     w.end_if(about_route)
     cancelled = w.if_eq(v('Route'), 'cancel')
@@ -432,8 +459,19 @@ def build(dry_run=False):
     menu_start()
     numbers_loop, number = w.each(v('NumberKeys'))
     w.set('MenuNumber', text(number))
-    display = text(get(v('Catalog'), 'icons.call'), ' ', v('MenuNumber'), ' · ',
-        get(v('Numbers'), v('MenuNumber')), name='Phone row')
+    w.set('DisplayNumber', v('MenuNumber'))
+    code = get(v('DefaultProfile'), 'callingCode')
+    own_code = w.if_match(v('MenuNumber'), text('\\A\\', code, r'[0-9]+\z'))
+    nsn = w.replace(v('MenuNumber'), text('\\A\\', code), '')
+    own_number = w.if_match(nsn, get(v('DefaultProfile'), 'nationalPattern'))
+    w.set('DisplayPrefix', get(v('DefaultProfile'), 'nationalPrefix'))
+    bare = w.if_eq(get(v('DefaultProfile'), 'acceptBareNSN'), '1')
+    w.assign('DisplayPrefix', '')
+    w.end_if(bare)
+    w.set('DisplayNumber', text(v('DisplayPrefix'), nsn))
+    w.end_if(own_number)
+    w.end_if(own_code)
+    display = text(get(v('Catalog'), 'icons.call'), ' ', v('DisplayNumber'), ' - ', label('call'), name='Phone row')
     row(display, v('MenuNumber'))
     w.end_loop(numbers_loop)
     append_menu('results')

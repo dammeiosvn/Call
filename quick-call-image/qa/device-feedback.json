@@ -47,5 +47,22 @@
       "Fallback translations for existing catalogs"
     ],
     "iPhoneRetestVerified": false
+  },
+  "beta4VideoReview": {
+    "versionReported": "1.0.0-beta.4",
+    "durationSeconds": 73.966667,
+    "observed": [
+      "saveFailed before setup and after language selection",
+      "source menu works on rerun",
+      "OCR produces two number rows",
+      "Show Result destination missing"
+    ],
+    "newScreenshots": [
+      "source menu",
+      "camera captures packaging with fixed line number",
+      "About view"
+    ],
+    "targetedFixVersion": "1.0.0-beta.5",
+    "iPhoneRetestVerified": false
   }
 }

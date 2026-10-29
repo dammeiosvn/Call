@@ -37,7 +37,8 @@ def stringify(value):
     return str(value)
 
 
-def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), disk=None, fail_save=False):
+def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), disk=None, fail_save=False,
+        rewrite_json=False, corrupt_save=None):
     actions = workflow['WFWorkflowActions']
     blocks, stack = {}, []
     for i, action in enumerate(actions):
@@ -228,6 +229,15 @@ def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), dis
                 assert isinstance(file, File) and p['WFAskWhereToSave'] is False
                 path = p['WFFileDestinationPath']
                 assert path.startswith('QuickCall/') and '..' not in path
+                if rewrite_json:
+                    file = File(file.name, json.dumps(json.loads(file.body), ensure_ascii=False, sort_keys=True, indent=2))
+                if corrupt_save and path.endswith(corrupt_save):
+                    data = json.loads(file.body)
+                    if corrupt_save == 'settings.json':
+                        data['region'] = 'ZZ'
+                    else:
+                        data['meta']['configVersion'] = 'damaged'
+                    file = File(file.name, json.dumps(data))
                 result['disk'][path] = file
                 result['writes'].append(path)
                 answer = file
@@ -278,7 +288,11 @@ def run(workflow, menus=(), photos=(), camera=(), incoming=None, answers=(), dis
             elif ident == 'showresult':
                 result['previews'].append(stringify(evaluate(p['Text'])))
             elif ident == 'alert':
-                result['alerts'].append(stringify(evaluate(p['WFAlertActionMessage'])))
+                message = stringify(evaluate(p['WFAlertActionMessage']))
+                if p.get('CustomOutputName') == 'Test destination; no call':
+                    result['previews'].append(message)
+                else:
+                    result['alerts'].append(message)
             elif ident == 'notification':
                 result['notifications'].append(stringify(evaluate(p['WFNotificationActionBody'])))
             elif ident == 'exit':
